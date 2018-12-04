@@ -4,7 +4,7 @@
     angular.module('app.ui').component('wWebOnly', {
         scope: false,
         transclude: true,
-        template: `<div ng-if="::${WavesApp.isWeb()}" ng-transclude></div>`
+        template: `<div ng-if="::${EarthsApp.isWeb()}" ng-transclude></div>`
     });
 
 })();

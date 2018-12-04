@@ -1,6 +1,6 @@
-import { Money, BigNumber } from '@waves/data-entities';
+import { Money, BigNumber } from '@earths/data-entities';
 import { IAssetPair, TLeasingStatus, TOrderType } from '../../interface';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
+import { TRANSACTION_TYPE_NUMBER } from '@earths/signature-generator';
 
 
 export type T_API_TX =

@@ -14,7 +14,7 @@
 
         const R = require('ramda');
 
-        const OLD_ORIGIN = 'https://waveswallet.io';
+        const OLD_ORIGIN = 'https://earthswallet.io';
 
         class ImportAccountsCtrl extends Base {
 

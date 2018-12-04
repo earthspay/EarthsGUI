@@ -5,25 +5,25 @@ import * as sign from './sign';
 import * as utilsModule from './utils/utils';
 import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
-import * as wavesDataEntitiesModule from '@waves/data-entities';
-import { Money, AssetPair, OrderPrice } from '@waves/data-entities';
+import * as earthsDataEntitiesModule from '@earths/data-entities';
+import { Money, AssetPair, OrderPrice } from '@earths/data-entities';
 import { normalizeTime, toAsset } from './utils/utils';
-import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
+import { IAssetInfo } from '@earths/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
-import { utils as cryptoUtils } from '@waves/signature-generator';
-import * as signatureAdapters from '@waves/signature-adapter';
-import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
+import { utils as cryptoUtils } from '@earths/signature-generator';
+import * as signatureAdapters from '@earths/signature-adapter';
+import { Adapter, SIGN_TYPE } from '@earths/signature-adapter';
 
-export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
+export { getAdapterByType, getAvailableList } from '@earths/signature-adapter';
 export { Seed } from './classes/Seed';
 export { assetStorage } from './utils/AssetStorage';
 export * from './store';
 
-export const wavesDataEntities = {
-    ...wavesDataEntitiesModule
+export const earthsDataEntities = {
+    ...earthsDataEntitiesModule
 };
 export const api = { ...apiMethods };
 export const dataManager = new DataManager();
@@ -43,7 +43,7 @@ export const broadcast = broadcastF;
 export const createOrder = createOrderSend;
 export const cancelOrder = cancelOrderSend;
 
-wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
+earthsDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;
     return { ...data, name };
 });
@@ -54,7 +54,7 @@ export function fetch<T>(url: string, fetchOptions?: IFetchOptions): Promise<T> 
 
 export function moneyFromTokens(tokens: TBigNumberData, assetData: TAssetData): Promise<Money> {
     return toAsset(assetData).then((asset) => {
-        return wavesDataEntities.Money.fromTokens(tokens, asset);
+        return earthsDataEntities.Money.fromTokens(tokens, asset);
     });
 }
 

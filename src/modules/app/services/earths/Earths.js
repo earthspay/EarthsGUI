@@ -4,13 +4,13 @@
     /**
      * @param {Node} node
      * @param {Matcher} matcher
-     * @param {WavesUtils} wavesUtils
+     * @param {EarthsUtils} earthsUtils
      * @param {app.utils} utils
-     * @return {Waves}
+     * @return {Earths}
      */
-    const factory = function (node, matcher, wavesUtils, utils) {
+    const factory = function (node, matcher, earthsUtils, utils) {
 
-        class Waves {
+        class Earths {
 
             constructor() {
                 /**
@@ -22,17 +22,17 @@
                  */
                 this.matcher = matcher;
                 /**
-                 * @type {WavesUtils}
+                 * @type {EarthsUtils}
                  */
-                this.utils = wavesUtils;
+                this.utils = earthsUtils;
             }
 
         }
 
-        return utils.bind(new Waves());
+        return utils.bind(new Earths());
     };
 
-    factory.$inject = ['node', 'matcher', 'wavesUtils', 'utils'];
+    factory.$inject = ['node', 'matcher', 'earthsUtils', 'utils'];
 
-    angular.module('app').factory('waves', factory);
+    angular.module('app').factory('earths', factory);
 })();

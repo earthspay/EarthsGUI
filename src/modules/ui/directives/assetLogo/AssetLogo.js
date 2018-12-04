@@ -3,19 +3,19 @@
 
     // TODO @xenohunter : remove that when icons are in @dvshur's service
     const ASSET_IMAGES_MAP = {
-        [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
-        [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
-        [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
-        [WavesApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
-        [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
-        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
-        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
-        [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
-        [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
-        [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
-        [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
-        [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
-        [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
+        [EarthsApp.defaultAssets.EARTHS]: '/img/assets/earths.svg',
+        [EarthsApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
+        [EarthsApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
+        [EarthsApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
+        [EarthsApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
+        [EarthsApp.defaultAssets.EUR]: '/img/assets/euro.svg',
+        [EarthsApp.defaultAssets.USD]: '/img/assets/usd.svg',
+        [EarthsApp.defaultAssets.DASH]: '/img/assets/dash.svg',
+        [EarthsApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
+        [EarthsApp.defaultAssets.TRY]: '/img/assets/try.svg',
+        [EarthsApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
+        [EarthsApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
+        [EarthsApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     };
 
     const ds = require('data-service');
@@ -55,10 +55,10 @@
      * @param Base
      * @param {JQuery} $element
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @return {AssetLogo}
      */
-    const controller = function (Base, $element, utils, waves) {
+    const controller = function (Base, $element, utils, earths) {
 
         class AssetLogo extends Base {
 
@@ -85,7 +85,7 @@
 
                 const canPayFee = !!ds.utils.getTransferFeeList().find(money => money.asset.id === this.assetId);
 
-                $element.toggleClass('sponsored-asset', this.assetId !== 'WAVES' && canPayFee);
+                $element.toggleClass('sponsored-asset', this.assetId !== 'EARTHS' && canPayFee);
 
                 $element.find('.asset-logo')
                     .css({
@@ -100,7 +100,7 @@
              */
             _addLogo() {
                 if (this.assetId) {
-                    waves.node.assets.getAsset(this.assetId)
+                    earths.node.assets.getAsset(this.assetId)
                         .then((asset) => {
                             if (ASSET_IMAGES_MAP[asset.id]) {
                                 utils.loadImage(ASSET_IMAGES_MAP[asset.id])
@@ -148,7 +148,7 @@
         return new AssetLogo();
     };
 
-    controller.$inject = ['Base', '$element', 'utils', 'waves'];
+    controller.$inject = ['Base', '$element', 'utils', 'earths'];
 
     angular.module('app.ui')
         .component('wAssetLogo', {

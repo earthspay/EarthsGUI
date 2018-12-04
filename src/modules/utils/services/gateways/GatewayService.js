@@ -33,14 +33,14 @@
 
             /**
              * @param {Asset} asset
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @return {Promise}
              */
-            getDepositDetails(asset, wavesAddress) {
+            getDepositDetails(asset, earthsAddress) {
                 const gateway = this._findGatewayFor(asset, 'deposit');
 
                 if (gateway) {
-                    return gateway.getDepositDetails(asset, wavesAddress);
+                    return gateway.getDepositDetails(asset, earthsAddress);
                 }
 
                 return null;
@@ -59,12 +59,12 @@
 
             /**
              * @param {Asset} crypto
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @return {Promise<object>}
              */
-            getCardFiatWithLimits(crypto, wavesAddress, fiatList) {
+            getCardFiatWithLimits(crypto, earthsAddress, fiatList) {
                 const gateway = this._findGatewayFor(crypto, 'card');
-                return gateway.getFiatWithLimits(crypto, wavesAddress, fiatList);
+                return gateway.getFiatWithLimits(crypto, earthsAddress, fiatList);
             }
 
             /**
@@ -101,14 +101,14 @@
 
             /**
              * @param {Asset} asset
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @return {Promise}
              */
-            getSepaDetails(asset, wavesAddress) {
+            getSepaDetails(asset, earthsAddress) {
                 const gateway = this._findGatewayFor(asset, 'sepa');
 
                 if (gateway) {
-                    return gateway.getSepaDetails(asset, wavesAddress);
+                    return gateway.getSepaDetails(asset, earthsAddress);
                 }
 
                 return null;

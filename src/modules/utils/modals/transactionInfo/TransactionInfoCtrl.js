@@ -6,11 +6,11 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {ExplorerLinks} explorerLinks
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {IPollCreate} createPoll
      * @return {TransactionInfoCtrl}
      */
-    const controller = function (Base, $scope, explorerLinks, waves, createPoll) {
+    const controller = function (Base, $scope, explorerLinks, earths, createPoll) {
 
         class TransactionInfoCtrl extends Base {
 
@@ -28,10 +28,10 @@
             }
 
             _getData() {
-                waves.node.transactions.getAlways(this.id)
+                earths.node.transactions.getAlways(this.id)
                     .then((transaction) => {
                         if (!transaction.isUTX) {
-                            return waves.node.height().then((height) => ({
+                            return earths.node.height().then((height) => ({
                                 confirmations: height - transaction.height,
                                 transaction
                             }));
@@ -69,9 +69,9 @@
              * @private
              */
             _getHeight() {
-                const promiseList = [waves.node.height()];
+                const promiseList = [earths.node.height()];
                 if (!this.confirmed) {
-                    promiseList.push(waves.node.transactions.getAlways(this.id));
+                    promiseList.push(earths.node.transactions.getAlways(this.id));
                 }
                 return Promise.all(promiseList);
             }
@@ -101,7 +101,7 @@
         return new TransactionInfoCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'explorerLinks', 'waves', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'explorerLinks', 'earths', 'createPoll'];
 
     angular.module('app.utils').controller('TransactionInfoCtrl', controller);
 })();

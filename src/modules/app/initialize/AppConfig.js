@@ -5,8 +5,8 @@
 
         const tsUtils = require('ts-utils');
 
-        ds.config.setConfig(WavesApp.network);
-        ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
+        ds.config.setConfig(EarthsApp.network);
+        ds.config.set('remappedAssetNames', EarthsApp.remappedAssetNames);
 
         class AppConfig {
 
@@ -22,13 +22,13 @@
                 const Transport = window.TransportNodeHid;
 
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
-                    networkCode: WavesApp.network.code.charCodeAt(0),
-                    openTimeout: WavesApp.sign.openTimeout,
-                    listenTimeout: WavesApp.sign.listenTimeout,
-                    exchangeTimeout: WavesApp.sign.exchangeTimeout,
-                    debug: !WavesApp.isProduction(),
+                    networkCode: EarthsApp.network.code.charCodeAt(0),
+                    openTimeout: EarthsApp.sign.openTimeout,
+                    listenTimeout: EarthsApp.sign.listenTimeout,
+                    exchangeTimeout: EarthsApp.sign.exchangeTimeout,
+                    debug: !EarthsApp.isProduction(),
                     transport: Transport && Transport.default,
-                    extension: () => typeof Waves === 'undefined' ? null : Waves
+                    extension: () => typeof Earths === 'undefined' ? null : Earths
                 }));
             }
 
@@ -36,7 +36,7 @@
              * @private
              */
             _initUrlResolveMode() {
-                if (WavesApp.isWeb()) {
+                if (EarthsApp.isWeb()) {
                     const base = document.createElement('base');
                     base.href = '/';
                     document.head.appendChild(base);
@@ -63,10 +63,10 @@
                     .use(i18nextLocizeBackend)
                     .init({
                         lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
-                        debug: !WavesApp.isProduction(),
-                        ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
+                        debug: !EarthsApp.isProduction(),
+                        ns: EarthsApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
-                        whitelist: Object.keys(WavesApp.localize),
+                        whitelist: Object.keys(EarthsApp.localize),
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,
@@ -95,13 +95,13 @@
                             }
                         },
                         backend: {
-                            loadPath: `/locales/{{lng}}/{{ns}}.json?${WavesApp.version}`,
+                            loadPath: `/locales/{{lng}}/{{ns}}.json?${EarthsApp.version}`,
                             referenceLng: 'en'
                         }
                     });
 
                 i18next.on('initialized', () => {
-                    const localeData = WavesApp.getLocaleData().separators;
+                    const localeData = EarthsApp.getLocaleData().separators;
 
                     BigNumber.config({
                         ROUNDING_MODE: BigNumber.ROUND_DOWN,
@@ -111,16 +111,16 @@
                         })
                     });
 
-                    if (WavesApp.isDesktop()) {
+                    if (EarthsApp.isDesktop()) {
                         transfer('setLanguage', i18next.language);
                     }
 
                     i18next.on('languageChanged', () => {
-                        if (WavesApp.isDesktop()) {
+                        if (EarthsApp.isDesktop()) {
                             transfer('setLanguage', i18next.language);
                         }
 
-                        const localeData = WavesApp.getLocaleData().separators;
+                        const localeData = EarthsApp.getLocaleData().separators;
 
                         BigNumber.config({
                             ROUNDING_MODE: BigNumber.ROUND_DOWN,
@@ -138,10 +138,10 @@
              */
             _initStates() {
 
-                const defaultUrl = AppConfig.getUrlFromState(WavesApp.stateTree.find('welcome'));
+                const defaultUrl = AppConfig.getUrlFromState(EarthsApp.stateTree.find('welcome'));
                 $urlRouterProvider.when('', defaultUrl);
 
-                WavesApp.stateTree.toArray()
+                EarthsApp.stateTree.toArray()
                     .slice(1)
                     .forEach((item) => {
                         const abstract = item.get('abstract');
@@ -161,7 +161,7 @@
                                     undefined :
                                     (
                                         viewData.templateUrl ||
-                                        AppConfig.getTemplateUrl(WavesApp.stateTree.getPath(item.id))
+                                        AppConfig.getTemplateUrl(EarthsApp.stateTree.getPath(item.id))
                                     )
                             );
                             views[viewData.name] = { controller, template, templateUrl };
@@ -169,7 +169,7 @@
                             return views;
                         }, Object.create(null));
 
-                        $stateProvider.state(WavesApp.stateTree.getPath(item.id).join('.'), {
+                        $stateProvider.state(EarthsApp.stateTree.getPath(item.id).join('.'), {
                             abstract,
                             url,
                             redirectTo,
@@ -185,7 +185,7 @@
             }
 
             static getTemplateUrl(path) {
-                return path.filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                return path.filter((id) => !EarthsApp.stateTree.find(id).get('abstract'))
                     .reduce((result, item, index, array) => {
                         item = tsUtils.camelCase(item);
                         if (index === array.length - 1) {
@@ -201,7 +201,7 @@
 
             static getUserLang() {
 
-                const available = Object.keys(WavesApp.localize);
+                const available = Object.keys(EarthsApp.localize);
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
 

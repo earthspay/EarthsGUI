@@ -6,7 +6,7 @@
     /**
      * @param Base
      * @param {$rootScope.Scope} $scope
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {User} user
      * @param {IPollCreate} createPoll
      * @param {*} $templateRequest
@@ -17,7 +17,7 @@
      */
     const controller = function (Base,
                                  $scope,
-                                 waves,
+                                 earths,
                                  user,
                                  createPoll,
                                  $templateRequest,
@@ -68,10 +68,10 @@
              */
             logoutAfterMin = null;
 
-            appName = WavesApp.name;
-            appVersion = WavesApp.version;
-            supportLink = WavesApp.network.support;
-            supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
+            appName = EarthsApp.name;
+            appVersion = EarthsApp.version;
+            supportLink = EarthsApp.network.support;
+            supportLinkName = EarthsApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
 
             constructor() {
@@ -109,9 +109,9 @@
                 this.observe('withScam', () => {
                     const withScam = this.withScam;
                     if (withScam) {
-                        waves.node.assets.giveMyScamBack();
+                        earths.node.assets.giveMyScamBack();
                     } else {
-                        waves.node.assets.stopScam();
+                        earths.node.assets.stopScam();
                     }
                 });
 
@@ -133,14 +133,14 @@
                 });
 
                 this.observe('shownSeed', () => {
-                    analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
+                    analytics.push('Settings', `Settings.ShowSeed.${EarthsApp.type}`);
                 });
 
                 this.observe('shownKey', () => {
-                    analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
+                    analytics.push('Settings', `Settings.ShowKeyPair.${EarthsApp.type}`);
                 });
 
-                createPoll(this, waves.node.height, (height) => {
+                createPoll(this, earths.node.height, (height) => {
                     this.blockHeight = height;
                     $scope.$digest();
                 }, 5000);
@@ -167,14 +167,14 @@
 
             onChangeLanguage(language) {
                 user.setSetting('lng', language);
-                analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
+                analytics.push('Settings', `Settings.ChangeLanguage.${EarthsApp.type}`, language);
             }
 
             setNetworkDefault() {
-                this.node = WavesApp.network.node;
-                this.matcher = WavesApp.network.matcher;
+                this.node = EarthsApp.network.node;
+                this.matcher = EarthsApp.network.matcher;
                 this.withScam = false;
-                this.scamListUrl = WavesApp.network.scamListUrl;
+                this.scamListUrl = EarthsApp.network.scamListUrl;
             }
 
             showPairingWithMobile() {
@@ -198,7 +198,7 @@
     controller.$inject = [
         'Base',
         '$scope',
-        'waves',
+        'earths',
         'user',
         'createPoll',
         '$templateRequest',

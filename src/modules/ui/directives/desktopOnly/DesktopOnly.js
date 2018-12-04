@@ -4,7 +4,7 @@
     angular.module('app.ui').component('wDesktopOnly', {
         scope: false,
         transclude: true,
-        template: `<div ng-if="::${WavesApp.isDesktop()}" ng-transclude></div>`
+        template: `<div ng-if="::${EarthsApp.isDesktop()}" ng-transclude></div>`
     });
 
 })();

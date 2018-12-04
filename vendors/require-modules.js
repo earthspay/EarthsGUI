@@ -7,20 +7,20 @@
         'ts-api-validator': 'tsApiValidator',
         'parse-json-bignumber': 'parseJsonBignumber',
         'papaparse': 'Papa',
-        'waves-api': 'WavesAPI',
+        'earths-api': 'EarthsAPI',
         'identity-img': 'identityImg',
-        '@waves/data-entities': 'dataEntities',
-        '@waves/signature-generator': 'wavesSignatureGenerator',
+        '@earths/data-entities': 'dataEntities',
+        '@earths/signature-generator': 'earthsSignatureGenerator',
         '@ledgerhq/hw-transport-u2f': 'TransportU2F',
         '@ledgerhq/hw-transport-node-hid': 'TransportU2F',
-        '@waves/ledger': 'WavesLedgerJs',
-        '@waves/signature-adapter': 'wavesSignatureAdapter',
+        '@earths/ledger': 'EarthsLedgerJs',
+        '@earths/signature-adapter': 'earthsSignatureAdapter',
         'ramda': 'R',
         'data-service': 'ds',
         'handlebars': 'Handlebars',
-        '@waves/waves-browser-bus': 'bus',
+        '@earths/earths-browser-bus': 'bus',
         'worker-wrapper': 'workerWrapper',
-        '@waves/assets-pairs-order': 'OrderPairs'
+        '@earths/assets-pairs-order': 'OrderPairs'
     };
 
     function getModule(require) {

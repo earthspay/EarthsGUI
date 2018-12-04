@@ -1,20 +1,20 @@
 (function () {
     'use strict';
 
-    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { SIGN_TYPE } = require('@earths/signature-adapter');
     const BASE_64_PREFIX = 'base64:';
     const { uniqueId } = require('ts-utils');
     const { fetch } = require('data-service');
 
     /**
      * @param {typeof Base} Base
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {BalanceWatcher} balanceWatcher
      * @return {ScriptTxForm}
      */
-    const controller = function (Base, waves, $scope, user, balanceWatcher) {
+    const controller = function (Base, earths, $scope, user, balanceWatcher) {
 
         class ScriptTxForm extends Base {
 
@@ -95,7 +95,7 @@
             }
 
             getSignable() {
-                const tx = waves.node.transactions.createTransaction({ ...this.state.tx, type: SIGN_TYPE.SET_SCRIPT });
+                const tx = earths.node.transactions.createTransaction({ ...this.state.tx, type: SIGN_TYPE.SET_SCRIPT });
                 const signable = ds.signature.getSignatureApi().makeSignable({
                     type: tx.type,
                     data: tx
@@ -161,7 +161,7 @@
                 }
 
                 if (!state.tx.fee) {
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SET_SCRIPT }).then(fee => {
+                    earths.node.getFee({ type: EarthsApp.TRANSACTION_TYPES.NODE.SET_SCRIPT }).then(fee => {
                         state.tx.fee = fee;
                         this._currentHasFee();
                         $scope.$apply();
@@ -233,7 +233,7 @@
         return new ScriptTxForm();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope', 'user', 'balanceWatcher'];
+    controller.$inject = ['Base', 'earths', '$scope', 'user', 'balanceWatcher'];
 
     angular.module('app.ui').component('wScriptTxForm', {
         controller,

@@ -7,12 +7,12 @@
      * @param {$rootScope.Scope} $scope
      * @param {validateService} validateService
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @returns {ConfirmTransaction}
      */
-    const controller = function (ConfirmTxService, $scope, validateService, utils, waves, $attrs) {
+    const controller = function (ConfirmTxService, $scope, validateService, utils, earths, $attrs) {
 
-        const { TRANSACTION_TYPE_NUMBER, SIGN_TYPE } = require('@waves/signature-adapter');
+        const { TRANSACTION_TYPE_NUMBER, SIGN_TYPE } = require('@earths/signature-adapter');
 
 
         class ConfirmTransaction extends ConfirmTxService {
@@ -93,7 +93,7 @@
             _validateAddress() {
                 const { recipient } = this.signable.getTxData();
                 const errors = [];
-                return utils.resolve(utils.when(validateService.wavesAddress(recipient)))
+                return utils.resolve(utils.when(validateService.earthsAddress(recipient)))
                     .then(({ state }) => {
                         if (!state) {
                             errors.push({
@@ -114,7 +114,7 @@
                 const { type } = this.signable.getTxData();
 
                 if (type === TRANSACTION_TYPE_NUMBER.SPONSORSHIP) {
-                    return waves.node.assets.userBalances()
+                    return earths.node.assets.userBalances()
                         .then((list) => list.map(({ available }) => available))
                         .then((list) => {
                             const hash = utils.toHash(list, 'asset.id');
@@ -176,7 +176,7 @@
         '$scope',
         'validateService',
         'utils',
-        'waves',
+        'earths',
         '$attrs'
     ];
 

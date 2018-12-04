@@ -6,12 +6,12 @@
      * @param {$rootScope.Scope} $scope
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @return {TokensCtrl}
      */
-    const controller = function (Base, $scope, modalManager, createPoll, waves) {
+    const controller = function (Base, $scope, modalManager, createPoll, earths) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
         const ds = require('data-service');
 
         class TokensCtrl extends Base {
@@ -73,7 +73,7 @@
 
                 this.observe('precision', this._onChangePrecision);
 
-                Promise.all([waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.ISSUE }), poll.ready])
+                Promise.all([earths.node.getFee({ type: EarthsApp.TRANSACTION_TYPES.NODE.ISSUE }), poll.ready])
                     .then(([money]) => {
                         this._fee = money;
                         this.observe(['_balance', '_fee'], this._onChangeBalance);
@@ -91,7 +91,7 @@
                 const precision = Number(this.precision.toString());
                 const quantity = this.count.times(Math.pow(10, precision));
 
-                const tx = waves.node.transactions.createTransaction({
+                const tx = earths.node.transactions.createTransaction({
                     type: SIGN_TYPE.ISSUE,
                     name: this.name,
                     description: this.description,
@@ -110,7 +110,7 @@
              * @private
              */
             _getBalance() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+                return earths.node.assets.balance(EarthsApp.defaultAssets.EARTHS);
             }
 
             /**
@@ -119,7 +119,7 @@
              */
             _onChangePrecision({ value }) {
                 if (value && value.lte(8)) {
-                    this.maxCoinsCount = WavesApp.maxCoinsCount.div(Math.pow(10, Number(value)));
+                    this.maxCoinsCount = EarthsApp.maxCoinsCount.div(Math.pow(10, Number(value)));
                 }
             }
 
@@ -150,7 +150,7 @@
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'createPoll', 'earths'];
 
     angular.module('app.tokens')
         .controller('TokensCtrl', controller);

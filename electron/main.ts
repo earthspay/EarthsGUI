@@ -267,12 +267,12 @@ class Main implements IMain {
     private installDesktopFile() {
         const escape = path => path.replace(/\s/g, '\\ ');
         const processDesktopFile = file => file.replace('{{APP_PATH}}', escape(process.execPath));
-        const writeDesktop = desktop => write(join(homedir(), '.local', 'share', 'applications', 'waves.desktop'), desktop);
+        const writeDesktop = desktop => write(join(homedir(), '.local', 'share', 'applications', 'earths.desktop'), desktop);
         const registerProtocolHandler = () => {
-            execSync('xdg-mime default waves.desktop x-scheme-handler/waves');
+            execSync('xdg-mime default earths.desktop x-scheme-handler/earths');
         };
 
-        return read(join(__dirname, 'waves.desktop'))
+        return read(join(__dirname, 'earths.desktop'))
             .then(processDesktopFile)
             .then(writeDesktop)
             .then(registerProtocolHandler)

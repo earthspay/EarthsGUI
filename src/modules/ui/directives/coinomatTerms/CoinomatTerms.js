@@ -2,7 +2,7 @@
     'use strict';
 
     const ds = require('data-service');
-    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { SIGN_TYPE } = require('@earths/signature-adapter');
 
     /**
      * @param {typeof Base} Base

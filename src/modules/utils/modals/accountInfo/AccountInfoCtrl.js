@@ -9,12 +9,12 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {User} user
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {INotification} notification
      * @param {createPoll} createPoll
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, waves, notification, createPoll) {
+    const controller = function (Base, $scope, user, earths, notification, createPoll) {
 
         class AccountInfoCtrl extends Base {
 
@@ -92,10 +92,10 @@
                 /**
                  * @type {boolean}
                  */
-                this.isKeeper = user.userType === 'wavesKeeper';
+                this.isKeeper = user.userType === 'earthsKeeper';
 
                 const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
-                const feePromise = waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
+                const feePromise = earths.node.getFee({ type: EarthsApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS });
 
                 Promise.all([feePromise, poll.ready])
                     .then(([fee]) => {
@@ -105,7 +105,7 @@
                         $scope.$digest();
                     });
 
-                this.aliases = waves.node.aliases.getAliasList();
+                this.aliases = earths.node.aliases.getAliasList();
                 this.observe(['newAlias'], this._validateNewAlias);
             }
 
@@ -136,7 +136,7 @@
 
                             this.signLoader = false;
                             return ds.broadcast(preparedTx).then(() => {
-                                analytics.push('User', `User.CreateAlias.Success.${WavesApp.type}`);
+                                analytics.push('User', `User.CreateAlias.Success.${EarthsApp.type}`);
                                 this.aliases.push(this.newAlias);
                                 this.newAlias = '';
                                 this.createAliasStep = 0;
@@ -155,11 +155,11 @@
             }
 
             onCopyAddress() {
-                analytics.push('User', `User.CopyAddress.${WavesApp.type}`);
+                analytics.push('User', `User.CopyAddress.${EarthsApp.type}`);
             }
 
             onCopyAlias() {
-                analytics.push('User', `User.CopyAlias.${WavesApp.type}`);
+                analytics.push('User', `User.CopyAlias.${EarthsApp.type}`);
             }
 
             reset() {
@@ -181,7 +181,7 @@
              * @private
              */
             _getBalance() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+                return earths.node.assets.balance(EarthsApp.defaultAssets.EARTHS);
             }
 
             /**
@@ -219,7 +219,7 @@
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'user', 'earths', 'notification', 'createPoll'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);

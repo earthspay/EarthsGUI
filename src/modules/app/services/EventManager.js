@@ -37,10 +37,10 @@
                  */
                 this._events = Object.create(null);
                 /**
-                 * @type {Waves}
+                 * @type {Earths}
                  * @private
                  */
-                this._waves = null;
+                this._earths = null;
 
                 user.onLogin().then(this._initialize.bind(this));
             }
@@ -61,8 +61,8 @@
              * @private
              */
             _initialize() {
-                this._waves = $injector.get('waves');
-                this._waves.node.transactions.listUtx()
+                this._earths = $injector.get('earths');
+                this._earths.node.transactions.listUtx()
                     .then((list) => {
                         const events = user.getSetting('events');
                         const utxHash = utils.toHash(list, 'id');
@@ -104,7 +104,7 @@
                     if (!force) {
                         this.signals.changeBalanceEvent.dispatch();
                     }
-                    // utils.when(this._waves.node.transactions.get(id)) // TODO : UTX problems
+                    // utils.when(this._earths.node.transactions.get(id)) // TODO : UTX problems
                     //     .then((tx) => {
                     //         notification.info({
                     //             ns: 'app.ui',
@@ -125,7 +125,7 @@
                     this._poll.destroy();
                 }
                 setTimeout(() => {
-                    this._poll = new Poll(this._waves.node.transactions.listUtx, this._addUtxList.bind(this), 1000);
+                    this._poll = new Poll(this._earths.node.transactions.listUtx, this._addUtxList.bind(this), 1000);
                 }, 1000);
             }
 

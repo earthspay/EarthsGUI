@@ -5,12 +5,12 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {User} user
      * @param {ModalManager} modalManager
      * @return {MyBalance}
      */
-    const controller = function (Base, $scope, createPoll, waves, user, modalManager) {
+    const controller = function (Base, $scope, createPoll, earths, user, modalManager) {
 
         const R = require('ramda');
 
@@ -89,9 +89,9 @@
              * @param {string} assetId
              */
             setPair(assetId) {
-                const wavesId = WavesApp.defaultAssets.WAVES;
-                const btcId = WavesApp.defaultAssets.BTC;
-                const assetId2 = assetId === wavesId ? btcId : wavesId;
+                const earthsId = EarthsApp.defaultAssets.EARTHS;
+                const btcId = EarthsApp.defaultAssets.BTC;
+                const assetId2 = assetId === earthsId ? btcId : earthsId;
 
                 ds.api.pairs.get(assetId, assetId2).then((pair) => {
                     user.setSetting('dex.assetIdPair', {
@@ -106,7 +106,7 @@
              * @private
              */
             _getBalanceList() {
-                return waves.node.assets.userBalances()
+                return earths.node.assets.userBalances()
                     .then(R.filter(MyBalance._isNotScam()));
             }
 
@@ -120,7 +120,7 @@
                         return r;
                     }, Object.create(null));
                 return (item) => {
-                    return !WavesApp.scam[item.asset.id] && !spamHash[item.asset.id];
+                    return !EarthsApp.scam[item.asset.id] && !spamHash[item.asset.id];
                 };
             }
 
@@ -129,7 +129,7 @@
         return new MyBalance();
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'waves', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'earths', 'user', 'modalManager'];
 
     angular.module('app.dex').component('wDexMyBalance', {
         bindings: {},

@@ -117,7 +117,7 @@ const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: '
                             forCopy.push(copy(path, join(targetPath, name)));
                         });
                         forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
-                        forCopy.push(copy(join(__dirname, 'electron', 'waves.desktop'), join(targetPath, 'waves.desktop')));
+                        forCopy.push(copy(join(__dirname, 'electron', 'earths.desktop'), join(targetPath, 'earths.desktop')));
                         forCopy.push(copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(targetPath, 'i18next')));
                     }
 
@@ -375,13 +375,13 @@ task('uglify', ['babel', 'templates'], function (done) {
 });
 
 task('s3-testnet', function () {
-    const bucket = 'testnet.waveswallet.io';
+    const bucket = 'testnet.earthswallet.io';
     return gulp.src('./dist/testnet/**/*')
         .pipe(s3({ ...AWS, bucket }));
 });
 
 task('s3-mainnet', function () {
-    const bucket = 'waveswallet.io';
+    const bucket = 'earthswallet.io';
     return gulp.src('./dist/mainnet/**/*')
         .pipe(s3({ ...AWS, bucket }));
 });
@@ -449,7 +449,7 @@ task('electron-debug', function (done) {
 });
 
 task('data-service', function () {
-    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u bignumber.js -u @waves/data-entities -u ramda -u @waves/signature-generator -u @waves/signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
+    execSync(`${join('node_modules', '.bin', 'tsc')} -p data-service && ${join('node_modules', '.bin', 'browserify')} ${join('data-service', 'index.js')} -s ds -u ts-utils -u bignumber.js -u @earths/data-entities -u ramda -u @earths/signature-generator -u @earths/signature-adapter -o ${join('data-service-dist', 'data-service.js')}`);
 });
 
 task('all', [

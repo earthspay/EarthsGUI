@@ -27,7 +27,7 @@
             this._current += delta;
             this._current = Math.min(this._current, 100);
             this._element.style.width = `${this._current}%`;
-            WavesApp.progress = this._current;
+            EarthsApp.progress = this._current;
         },
         stop() {
             return new Promise(resolve => {
@@ -41,7 +41,7 @@
     };
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
-    WavesApp.state = 'initApp';
+    EarthsApp.state = 'initApp';
     /**
      * @param {$rootScope.Scope} $rootScope
      * @param {User} user
@@ -52,15 +52,15 @@
      * @param {Storage} storage
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {ModalRouter} ModalRouter
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter) {
+                          notification, decorators, earths, ModalRouter) {
 
-        const phone = WavesApp.device.phone();
-        const tablet = WavesApp.device.tablet();
+        const phone = EarthsApp.device.phone();
+        const tablet = EarthsApp.device.tablet();
 
         const isPhone = !!phone;
         const isTablet = !!tablet;
@@ -107,12 +107,12 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
                         const path = parts.path.replace(/\/$/, '') || parts.path;
                         if (path) {
-                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true }).some(item => {
+                            const noLogin = path === '/' || EarthsApp.stateTree.where({ noLogin: true }).some(item => {
                                 const url = item.get('url') || item.id;
                                 return path === url;
                             });
@@ -129,16 +129,16 @@
                     });
                 }
 
-                $rootScope.WavesApp = WavesApp;
+                $rootScope.EarthsApp = EarthsApp;
             }
 
             _initTryDesktop() {
-                if (!isDesktop || WavesApp.isDesktop()) {
+                if (!isDesktop || EarthsApp.isDesktop()) {
                     return Promise.resolve(true);
                 }
 
                 const url = new URL(locationHref);
-                const href = `waves://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
+                const href = `earths://${url.pathname}${url.search}${url.hash}`.replace('///', '//');
 
                 return storage.load('openClientMode').then(clientMode => {
                     switch (clientMode) {
@@ -174,7 +174,7 @@
              * @private
              */
             _initializeOutLinks() {
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     $(document).on('click', '[target="_blank"]', (e) => {
                         const $link = $(e.currentTarget);
                         e.preventDefault();
@@ -214,8 +214,8 @@
 
                 this._listenChangeLanguage();
 
-                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+                const START_STATES = EarthsApp.stateTree.where({ noLogin: true })
+                    .map((item) => EarthsApp.stateTree.getPath(item.id).join('.'));
 
                 let waiting = false;
 
@@ -381,9 +381,9 @@
             _login(currentState, canChangeState) {
                 // const sessions = sessionBridge.getSessionsData();
 
-                const states = WavesApp.stateTree.where({ noLogin: true })
+                const states = EarthsApp.stateTree.where({ noLogin: true })
                     .map((item) => {
-                        return WavesApp.stateTree.getPath(item.id)
+                        return EarthsApp.stateTree.getPath(item.id)
                             .join('.');
                     });
                 if (canChangeState && states.indexOf(currentState.name) === -1) {
@@ -408,8 +408,8 @@
             _onChangeStateSuccess(event, toState, some, fromState) {
                 if (fromState.name) {
                     analytics.pushPageView(
-                        `${AppRun._getUrlFromState(toState)}.${WavesApp.type}`,
-                        `${AppRun._getUrlFromState(fromState)}.${WavesApp.type}`
+                        `${AppRun._getUrlFromState(toState)}.${EarthsApp.type}`,
+                        `${AppRun._getUrlFromState(fromState)}.${EarthsApp.type}`
                     );
                 }
                 this.activeClasses.forEach((className) => {
@@ -437,11 +437,11 @@
                 ])
                     .then(() => {
                         LOADER.stop();
-                        WavesApp.state = 'appRun';
+                        EarthsApp.state = 'appRun';
                     })
                     .catch((e) => {
                         console.error(e);
-                        WavesApp.state = 'loadingError';
+                        EarthsApp.state = 'loadingError';
                     });
             }
 
@@ -462,7 +462,7 @@
              * @private
              */
             _getImagesReadyPromise() {
-                return $.ajax({ url: `/img/images-list.json?v=${WavesApp.version}`, dataType: 'json' })
+                return $.ajax({ url: `/img/images-list.json?v=${EarthsApp.version}`, dataType: 'json' })
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));
                     });
@@ -484,11 +484,11 @@
 
             static _getUrlFromState(state) {
                 return (
-                    WavesApp
+                    EarthsApp
                         .stateTree
                         .getPath(state.name.split('.').slice(-1)[0])
-                        .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
-                        .map((id) => WavesApp.stateTree.find(id).get('url') || id)
+                        .filter((id) => !EarthsApp.stateTree.find(id).get('abstract'))
+                        .map((id) => EarthsApp.stateTree.find(id).get('url') || id)
                         .reduce((url, id) => `${url}/${id}`, '')
                 );
             }
@@ -508,7 +508,7 @@
         'storage',
         'notification',
         'decorators',
-        'waves',
+        'earths',
         'ModalRouter',
         'whatsNew'
     ];

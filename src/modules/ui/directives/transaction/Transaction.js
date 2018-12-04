@@ -3,14 +3,14 @@
 
     const PATH = 'modules/ui/directives/transaction/types';
     const tsUtils = require('ts-utils');
-    const { Money } = require('@waves/data-entities');
+    const { Money } = require('@earths/data-entities');
 
     /**
      * @param Base
      * @param $filter
      * @param {ModalManager} modalManager
      * @param {INotification} notification
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
@@ -18,9 +18,9 @@
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user, baseAssetService, dexService, $scope) {
+                                 earths, user, baseAssetService, dexService, $scope) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
 
         class Transaction extends Base {
 
@@ -30,9 +30,9 @@
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.typeName = this.transaction.typeName;
-                this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                this.isScam = !!EarthsApp.scam[this.transaction.assetId];
 
-                if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
+                if (this.transaction.amount && this.transaction.amount instanceof ds.earthsDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
@@ -40,7 +40,7 @@
                         });
                 }
 
-                const TYPES = waves.node.transactions.TYPES;
+                const TYPES = earths.node.transactions.TYPES;
 
                 switch (this.typeName) {
                     case TYPES.BURN:
@@ -102,7 +102,7 @@
              */
             getAssetName(asset) {
                 try {
-                    return !WavesApp.scam[asset.id] ? asset.name : '';
+                    return !EarthsApp.scam[asset.id] ? asset.name : '';
                 } catch (e) {
                     return '';
                 }
@@ -111,9 +111,9 @@
             cancelLeasing() {
                 const lease = this.transaction;
                 const leaseId = lease.id;
-                return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
+                return earths.node.getFee({ type: EarthsApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
                     .then((fee) => {
-                        const tx = waves.node.transactions.createTransaction({
+                        const tx = earths.node.transactions.createTransaction({
                             fee,
                             type: SIGN_TYPE.CANCEL_LEASING,
                             lease,
@@ -144,13 +144,13 @@
                 const datetime = `Date: ${timestamp}`;
 
                 let sender = `Sender: ${tx.sender}`;
-                if (tx.typeName === WavesApp.TRANSACTION_TYPES.NODE.EXCHANGE) {
+                if (tx.typeName === EarthsApp.TRANSACTION_TYPES.NODE.EXCHANGE) {
                     sender += ' (matcher address)';
                 }
 
                 let message = `${id}\n${type}\n${datetime}\n${sender}`;
 
-                if (tx.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.UNKNOWN) {
+                if (tx.typeName === EarthsApp.TRANSACTION_TYPES.EXTENDED.UNKNOWN) {
                     message += '\n\nRAW TX DATA BELOW\n\n';
                     message += JSON.stringify(tx, null, 2);
                     return message;
@@ -161,21 +161,21 @@
                     message += `\n${recipient}`;
                 }
 
-                if (tx.amount && tx.amount instanceof ds.wavesDataEntities.Money) {
+                if (tx.amount && tx.amount instanceof ds.earthsDataEntities.Money) {
                     const asset = tx.amount.asset;
                     const amount = `Amount: ${tx.amount.toFormat()} ${asset.name} (${asset.id})`;
                     message += `\n${amount}`;
                 }
 
-                if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
-                    this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
+                if (this.typeName === EarthsApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
+                    this.typeName === EarthsApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
                     const asset = tx.price.asset;
                     const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
                     const totalPrice = `Total price: ${this.totalPrice} ${asset.name}`;
                     message += `\n${price}\n${totalPrice}`;
                 }
 
-                if (this.typeName === WavesApp.TRANSACTION_TYPES.EXTENDED.DATA) {
+                if (this.typeName === EarthsApp.TRANSACTION_TYPES.EXTENDED.DATA) {
                     message += '\n\n\nDATA START';
                     message += `\n\n${tx.stringifiedData}`;
                     message += '\n\nDATA END\n\n';
@@ -197,7 +197,7 @@
         '$filter',
         'modalManager',
         'notification',
-        'waves',
+        'earths',
         'user',
         'baseAssetService',
         'dexService',

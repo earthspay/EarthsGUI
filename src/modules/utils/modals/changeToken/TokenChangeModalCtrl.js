@@ -6,14 +6,14 @@
      * @param {$rootScope.Scope} $scope
      * @param createPoll
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {User} user
      * @return {TokenChangeModalCtrl}
      */
-    const controller = function (Base, $scope, createPoll, utils, waves, user) {
+    const controller = function (Base, $scope, createPoll, utils, earths, user) {
 
-        const entities = require('@waves/data-entities');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const entities = require('@earths/data-entities');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
         const ds = require('data-service');
 
         class TokenChangeModalCtrl extends Base {
@@ -43,7 +43,7 @@
                 /**
                  * @type {BigNumber}
                  */
-                this.maxCoinsCount = WavesApp.maxCoinsCount.minus(money.asset.quantity);
+                this.maxCoinsCount = EarthsApp.maxCoinsCount.minus(money.asset.quantity);
                 /**
                  * @type {Money}
                  */
@@ -64,7 +64,7 @@
                  * @type {Money}
                  * @private
                  */
-                this._waves = null;
+                this._earths = null;
 
                 const { TokenChangeModalCtrl = {} } = user.getThemeSettings();
 
@@ -97,16 +97,16 @@
                     }
                 };
 
-                waves.node.getFee({ type: this.txType }).then((fee) => {
+                earths.node.getFee({ type: this.txType }).then((fee) => {
                     this.fee = fee;
                     $scope.$digest();
                 });
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
-                createPoll(this, this._getWavesBalance, '_waves', 1000);
+                createPoll(this, this._getEarthsBalance, '_earths', 1000);
 
                 this.observe(['input', 'issue'], this._createTx);
-                this.observe(['_waves', 'fee'], this._changeHasFee);
+                this.observe(['_earths', 'fee'], this._changeHasFee);
             }
 
             getSignable() {
@@ -117,16 +117,16 @@
                 this.step++;
             }
 
-            _getWavesBalance() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES).then(({ available }) => available);
+            _getEarthsBalance() {
+                return earths.node.assets.balance(EarthsApp.defaultAssets.EARTHS).then(({ available }) => available);
             }
 
             _changeHasFee() {
-                if (!this._waves || !this.fee) {
+                if (!this._earths || !this.fee) {
                     return null;
                 }
 
-                this.noFee = this._waves.lt(this.fee);
+                this.noFee = this._earths.lt(this.fee);
             }
 
             _createTx() {
@@ -136,7 +136,7 @@
 
 
                 if (input) {
-                    const tx = waves.node.transactions.createTransaction({
+                    const tx = earths.node.transactions.createTransaction({
                         type,
                         assetId: input.asset.id,
                         description: input.asset.description,
@@ -161,7 +161,7 @@
              */
             _getGraphData() {
                 const startDate = utils.moment().add().day(-100);
-                return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
+                return earths.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
                     .then((values) => ({ values }));
             }
 
@@ -171,7 +171,7 @@
         return new TokenChangeModalCtrl({ money, txType });
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'utils', 'waves', 'user'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'utils', 'earths', 'user'];
 
     angular.module('app.utils').controller('TokenChangeModalCtrl', controller);
 })();

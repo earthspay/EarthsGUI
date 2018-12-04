@@ -3,12 +3,12 @@
 
     /**
      * @param Base
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {object} $attrs
      * @param {app.utils} utils
      * @return {BalanceInput}
      */
-    const controller = function (Base, waves, $attrs, utils) {
+    const controller = function (Base, earths, $attrs, utils) {
 
         class BalanceInput extends Base {
 
@@ -135,7 +135,7 @@
         return new BalanceInput();
     };
 
-    controller.$inject = ['Base', 'waves', '$attrs', 'utils'];
+    controller.$inject = ['Base', 'earths', '$attrs', 'utils'];
 
     angular.module('app.ui').component('wBalanceInput', {
         bindings: {

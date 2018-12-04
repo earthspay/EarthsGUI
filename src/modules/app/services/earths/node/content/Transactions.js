@@ -13,10 +13,10 @@
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
         const ds = require('data-service');
 
-        const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
+        const TYPES = EarthsApp.TRANSACTION_TYPES.EXTENDED;
 
         class Transactions extends BaseNodeComponent {
 
@@ -207,27 +207,27 @@
 
             static _getTypeByName(txTypeName) {
                 switch (txTypeName) {
-                    case WavesApp.TRANSACTION_TYPES.NODE.TRANSFER:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.TRANSFER:
                         return 4;
-                    case WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER:
                         return 11;
-                    case WavesApp.TRANSACTION_TYPES.NODE.LEASE:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.LEASE:
                         return 8;
-                    case WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING:
                         return 9;
-                    case WavesApp.TRANSACTION_TYPES.NODE.ISSUE:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.ISSUE:
                         return 3;
-                    case WavesApp.TRANSACTION_TYPES.NODE.REISSUE:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.REISSUE:
                         return 5;
-                    case WavesApp.TRANSACTION_TYPES.NODE.BURN:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.BURN:
                         return 6;
-                    case WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS:
                         return 10;
-                    case WavesApp.TRANSACTION_TYPES.NODE.DATA:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.DATA:
                         return 12;
-                    case WavesApp.TRANSACTION_TYPES.NODE.SET_SCRIPT:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.SET_SCRIPT:
                         return 13;
-                    case WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP:
+                    case EarthsApp.TRANSACTION_TYPES.NODE.SPONSORSHIP:
                         return 14;
                     default:
                         throw new Error('Wrong tx name!');

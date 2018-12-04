@@ -36,7 +36,7 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
-        const { Money } = require('@waves/data-entities');
+        const { Money } = require('@earths/data-entities');
 
         class User {
 
@@ -297,7 +297,7 @@
             login(data) {
                 this.networkError = false;
                 return this._addUserData(data)
-                    .then(() => analytics.push('User', `Login.${WavesApp.type}.${data.userType}`));
+                    .then(() => analytics.push('User', `Login.${EarthsApp.type}.${data.userType}`));
             }
 
             /**
@@ -336,12 +336,12 @@
                     }
                 }).then(() => analytics.push(
                     'User',
-                    `${restore ? 'Restore' : 'Create'}.${WavesApp.type}.${data.userType}`,
+                    `${restore ? 'Restore' : 'Create'}.${EarthsApp.type}.${data.userType}`,
                     document.referrer));
             }
 
             logout() {
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     transfer('reload');
                 } else {
                     window.location.reload();
@@ -358,7 +358,7 @@
                 if (userState) {
                     return userState.state;
                 } else {
-                    return WavesApp.stateTree.getPath(name)
+                    return EarthsApp.stateTree.getPath(name)
                         .join('.');
                 }
             }
@@ -434,14 +434,14 @@
              * @return {Promise<any>}
              */
             async updateScriptAccountData(item = null) {
-                let waves;
+                let earths;
                 const address = item ? item.address : this.address;
                 try {
                     this.networkError = false;
-                    waves = await ds.api.assets.get(WavesApp.defaultAssets.WAVES);
+                    earths = await ds.api.assets.get(EarthsApp.defaultAssets.EARTHS);
                 } catch (e) {
                     this.networkError = true;
-                    throw new Error('Can\'t get Waves asset');
+                    throw new Error('Can\'t get Earths asset');
                 }
 
                 const addHasScript = value => {
@@ -453,11 +453,11 @@
 
                 try {
                     const response = await ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${address}`);
-                    this.extraFee = Money.fromCoins(response.extraFee, waves);
+                    this.extraFee = Money.fromCoins(response.extraFee, earths);
                     addHasScript(response.extraFee !== 0);
                 } catch (e) {
                     addHasScript(!!this._hasScript);
-                    this.extraFee = this.extraFee || Money.fromCoins(0, waves);
+                    this.extraFee = this.extraFee || Money.fromCoins(0, earths);
                 }
             }
 
@@ -472,8 +472,8 @@
                 const dayForwardTime = ds.app.getTimeStamp(1, 'day');
                 if (!this.matcherSign || this.matcherSign.timestamp - dayForwardTime < 0) {
                     const maxIntervalTimeStamp = ds.app.getTimeStamp(
-                        WavesApp.matcherSignInterval.count,
-                        WavesApp.matcherSignInterval.timeType
+                        EarthsApp.matcherSignInterval.count,
+                        EarthsApp.matcherSignInterval.timeType
                     );
                     promise = ds.app.signForMatcher(maxIntervalTimeStamp).then(
                         (signature) => {
@@ -538,13 +538,13 @@
                             this._password = data.password;
                         }
 
-                        const states = WavesApp.stateTree.find('main').getChildren();
+                        const states = EarthsApp.stateTree.find('main').getChildren();
                         this._stateList = states.map((baseTree) => {
                             const id = baseTree.id;
                             return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
                         });
 
-                        Object.keys(WavesApp.network).forEach((key) => {
+                        Object.keys(EarthsApp.network).forEach((key) => {
                             ds.config.set(key, this._settings.get(`network.${key}`));
                         });
 

@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    const entities = require('@waves/data-entities');
-    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const entities = require('@earths/data-entities');
+    const { SIGN_TYPE } = require('@earths/signature-adapter');
     const ds = require('data-service');
 
     /**
      * @param Base
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {User} user
      * @param {IPollCreate} createPoll
      * @param {INotification} notification
@@ -22,7 +22,7 @@
      */
     const controller = function (
         Base,
-        waves,
+        earths,
         user,
         createPoll,
         notification,
@@ -366,7 +366,7 @@
             }
 
             _getAllOrders() {
-                return waves.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true })));
+                return earths.matcher.getOrders().then(R.filter(R.whereEq({ isActive: true })));
             }
 
             static _parseError(error) {
@@ -404,7 +404,7 @@
 
     controller.$inject = [
         'Base',
-        'waves',
+        'earths',
         'user',
         'createPoll',
         'notification',

@@ -7,7 +7,7 @@
      * @param {Base} Base
      * @param {IPollCreate} createPoll
      * @param {JQuery} $element
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {DexDataService} dexDataService
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
@@ -18,7 +18,7 @@
     const controller = function (Base,
                                  createPoll,
                                  $element,
-                                 waves,
+                                 earths,
                                  dexDataService,
                                  utils,
                                  $scope,
@@ -191,8 +191,8 @@
                 const limit = 1;
 
                 return Promise.all([
-                    waves.matcher.getOrderBook(amountAsset, priceAsset),
-                    waves.matcher.getOrders().catch(() => null),
+                    earths.matcher.getOrderBook(amountAsset, priceAsset),
+                    earths.matcher.getOrders().catch(() => null),
                     ds.api.transactions.getExchangeTxList({ amountAsset, priceAsset, limit })
                         .then(([tx]) => tx).catch(() => null)
                 ])
@@ -431,7 +431,7 @@
         'Base',
         'createPoll',
         '$element',
-        'waves',
+        'earths',
         'dexDataService',
         'utils',
         '$scope',

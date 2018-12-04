@@ -19,7 +19,7 @@
                 this.txData = locals.data;
                 this.userType = locals.userType;
                 this.isLedger = this.userType === 'ledger';
-                this.isKeeper = this.userType === 'wavesKeeper';
+                this.isKeeper = this.userType === 'earthsKeeper';
                 this.deferred = {};
                 this.deferred.promise = new Promise((res, rej) => {
                     this.deferred.resolve = res;

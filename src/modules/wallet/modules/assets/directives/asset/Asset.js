@@ -16,7 +16,7 @@
             }
 
             isUnpinned() {
-                return !WavesApp.ALWAYS_PINNED_ASSETS.includes(this.balance.asset.id);
+                return !EarthsApp.ALWAYS_PINNED_ASSETS.includes(this.balance.asset.id);
             }
 
         }

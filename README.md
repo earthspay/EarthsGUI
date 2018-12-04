@@ -1,16 +1,16 @@
-# Waves Client
+# Earths Client
 
-[**Website**](https://wavesplatform.com/) | [**Discord**](https://discord.gg/cnFmDyA) | [**Forum**](https://forum.wavesplatform.com/) | [**Support**](https://support.wavesplatform.com/) | [**Documentation**](https://docs.wavesplatform.com)
+[**Website**](https://earths.ga/) | [**Discord**](https://discord.gg/cnFmDyA) | [**Forum**](https://forum.earths.ga/) | [**Support**](https://support.earths.ga/) | [**Documentation**](https://docs.earths.ga)
 
-[![Waves App Promo](https://raw.githubusercontent.com/wavesplatform/WavesGUI/dev/README_IMG_01.png)](https://wavesplatform.com/product)
+[![Earths App Promo](https://raw.githubusercontent.com/earthspay/EarthsGUI/dev/README_IMG_01.png)](https://earths.ga/product)
 
-Waves Client is the official wallet software designed with mass adoption in mind. It allows to access your Waves account, handle financial operations, issue tokens, and trade on DEX.
+Earths Client is the official wallet software designed with mass adoption in mind. It allows to access your Earths account, handle financial operations, issue tokens, and trade on DEX.
 
 ## Installation and usage
 
-The web version is available at [https://client.wavesplatform.com](https://client.wavesplatform.com) and needs no installation.
+The web version is available at [https://client.earths.ga](https://client.earths.ga) and needs no installation.
 
-The desktop client can be downloaded from [https://wavesplatform.com/product](https://wavesplatform.com/product).
+The desktop client can be downloaded from [https://earths.ga/product](https://earths.ga/product).
 
 ## For developers
 
@@ -26,16 +26,16 @@ The server will be launched at [https://localhost:8080](https://localhost:8080).
 
 ## Blockchain for the people
 
-Keep up with the latest news and articles, and find out all about events happening on the [Waves Platform](https://wavesplatform.com/).
+Keep up with the latest news and articles, and find out all about events happening on the [Earths Platform](https://earths.ga/).
 
-* [Community Forum](https://forum.wavesplatform.com/)
-* [Community Portal](https://wavescommunity.com/)
-* [Waves Docs](https://docs.wavesplatform.com/)
-* [Waves Blog](https://blog.wavesplatform.com/)
-* [Support](https://support.wavesplatform.com/)
+* [Community Forum](https://forum.earths.ga/)
+* [Community Portal](https://earthscommunity.com/)
+* [Earths Docs](https://docs.earths.ga/)
+* [Earths Blog](https://blog.earths.ga/)
+* [Support](https://support.earths.ga/)
 
 ##
 
-_Please see the [issues](https://github.com/wavesplatform/WavesGUI/issues) section to report any bugs or feature requests and to see the list of known issues._
+_Please see the [issues](https://github.com/earthspay/EarthsGUI/issues) section to report any bugs or feature requests and to see the list of known issues._
 
-[<img src="https://cdn.worldvectorlogo.com/logos/waves-6.svg" width="113px" alt="Waves Logo" />](https://wavesplatform.com)
+[<img src="https://cdn.worldvectorlogo.com/logos/earths-6.svg" width="113px" alt="Earths Logo" />](https://earths.ga)

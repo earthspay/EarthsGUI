@@ -5,18 +5,18 @@
      * @param {Assets} assets
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
-     * @return {WavesUtils}
+     * @return {EarthsUtils}
      */
     const factory = function (assets, utils, decorators) {
 
         const ds = require('data-service');
-        const entities = require('@waves/data-entities');
+        const entities = require('@earths/data-entities');
 
-        class WavesUtils {
+        class EarthsUtils {
 
             @decorators.cachable(5)
             searchAsset(userInput) {
-                return ds.fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
+                return ds.fetch(`${EarthsApp.network.api}/assets/search/${userInput}`);
             }
 
             /**
@@ -28,9 +28,9 @@
              */
             @decorators.cachable(350)
             getRate(assetFrom, assetTo, date) {
-                const WavesId = WavesApp.defaultAssets.WAVES;
-                const from = WavesUtils.toId(assetFrom);
-                const to = WavesUtils.toId(assetTo);
+                const EarthsId = EarthsApp.defaultAssets.EARTHS;
+                const from = EarthsUtils.toId(assetFrom);
+                const to = EarthsUtils.toId(assetTo);
 
                 if (from === to) {
                     return Promise.resolve(new BigNumber(1));
@@ -38,12 +38,12 @@
 
                 if (date) {
                     // TODO Add rate by date API. Author Tsigel at 22/11/2017 15:04
-                } else if (from === WavesId || to === WavesId) {
+                } else if (from === EarthsId || to === EarthsId) {
                     return this._getRate(from, to);
                 } else {
                     return utils.whenAll([
-                        this._getRate(from, WavesId),
-                        this._getRate(to, WavesId)
+                        this._getRate(from, EarthsId),
+                        this._getRate(to, EarthsId)
                     ])
                         .then(([rateFrom, rateTo]) => {
                             return rateTo.eq(0) ? rateTo : rateFrom.div(rateTo);
@@ -55,12 +55,12 @@
              * Get api for current balance from another balance
              * @param {string|Asset} assetFrom
              * @param {string|Asset} assetTo
-             * @return {Promise<WavesUtils.rateApi>}
+             * @return {Promise<EarthsUtils.rateApi>}
              */
             getRateApi(assetFrom, assetTo) {
                 return utils.whenAll([
-                    assets.getAsset(WavesUtils.toId(assetFrom)),
-                    assets.getAsset(WavesUtils.toId(assetTo)),
+                    assets.getAsset(EarthsUtils.toId(assetFrom)),
+                    assets.getAsset(EarthsUtils.toId(assetTo)),
                     this.getRate(assetFrom, assetTo)
                 ])
                     .then(([from, to, rate]) => {
@@ -77,19 +77,19 @@
              */
             @decorators.cachable(60)
             getRateHistory(assetFrom, assetTo, from, to) {
-                const idFrom = WavesUtils.toId(assetFrom);
-                const idTo = WavesUtils.toId(assetTo);
-                const wavesId = WavesApp.defaultAssets.WAVES;
+                const idFrom = EarthsUtils.toId(assetFrom);
+                const idTo = EarthsUtils.toId(assetTo);
+                const earthsId = EarthsApp.defaultAssets.EARTHS;
                 to = to || Date.now();
 
                 if (idFrom === idTo) {
                     return Promise.resolve([]);
-                } else if (idFrom === wavesId || idTo === wavesId) {
+                } else if (idFrom === earthsId || idTo === earthsId) {
                     return this._getRateHistory(idFrom, idTo, utils.moment(from), utils.moment(to));
                 } else {
                     return Promise.all([
-                        this._getRateHistory(idFrom, wavesId, utils.moment(from), utils.moment(to)),
-                        this._getRateHistory(idTo, wavesId, utils.moment(from), utils.moment(to))
+                        this._getRateHistory(idFrom, earthsId, utils.moment(from), utils.moment(to)),
+                        this._getRateHistory(idTo, earthsId, utils.moment(from), utils.moment(to))
                     ])
                         .then(([from, to]) => {
                             const toHash = function (list) {
@@ -119,8 +119,8 @@
              */
             @decorators.cachable(60)
             getChange(assetFrom, assetTo) {
-                const idFrom = WavesUtils.toId(assetFrom);
-                const idTo = WavesUtils.toId(assetTo);
+                const idFrom = EarthsUtils.toId(assetFrom);
+                const idTo = EarthsUtils.toId(assetTo);
 
                 if (idFrom === idTo) {
                     return Promise.resolve(new BigNumber(0));
@@ -237,7 +237,7 @@
                     .then((pair) => {
                         const amountId = pair.amountAsset.id;
                         const priceId = pair.priceAsset.id;
-                        const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
+                        const path = `${EarthsApp.network.api}/candles/${amountId}/${priceId}`;
 
                         return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}m`)
                             .then((data) => {
@@ -271,13 +271,13 @@
              * @param {Asset} from
              * @param {Asset} to
              * @param {BigNumber} rate
-             * @return {WavesUtils.rateApi}
+             * @return {EarthsUtils.rateApi}
              * @private
              */
             _generateRateApi(from, to, rate) {
                 return {
                     /**
-                     * @name WavesUtils.rateApi#exchange
+                     * @name EarthsUtils.rateApi#exchange
                      * @param {BigNumber} balance
                      * @return {BigNumber}
                      */
@@ -287,7 +287,7 @@
                     },
 
                     /**
-                     * @name WavesUtils.rateApi#exchangeReverse
+                     * @name EarthsUtils.rateApi#exchangeReverse
                      * @param {BigNumber} balance
                      * @return {BigNumber}
                      */
@@ -296,7 +296,7 @@
                     },
 
                     /**
-                     * @name WavesUtils.rateApi#rate
+                     * @name EarthsUtils.rateApi#rate
                      */
                     rate
                 };
@@ -312,15 +312,15 @@
 
         }
 
-        return new WavesUtils();
+        return new EarthsUtils();
     };
 
     factory.$inject = ['assets', 'utils', 'decorators'];
 
     angular.module('app')
-        .factory('wavesUtils', factory);
+        .factory('earthsUtils', factory);
 })();
 
 /**
- * @name WavesUtils.rateApi
+ * @name EarthsUtils.rateApi
  */

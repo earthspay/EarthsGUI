@@ -2,11 +2,11 @@
     'use strict';
 
     const ds = require('data-service');
-    const { Asset } = require('@waves/data-entities');
-    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { Asset } = require('@earths/data-entities');
+    const { SIGN_TYPE } = require('@earths/signature-adapter');
 
 
-    const factory = function (Base, waves, utils, $mdDialog, modalManager) {
+    const factory = function (Base, earths, utils, $mdDialog, modalManager) {
 
         class ConfirmTxService extends Base {
 
@@ -41,7 +41,7 @@
             /**
              * @type {string}
              */
-            exportLink = WavesApp.origin;
+            exportLink = EarthsApp.origin;
             /**
              * @type {string}
              */
@@ -88,15 +88,15 @@
                 if (success) {
                     return [
                         NAME,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}`,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}.Success`,
+                        `${NAME}.${this.tx.type}.${EarthsApp.type}`,
+                        `${NAME}.${this.tx.type}.${EarthsApp.type}.Success`,
                         amount
                     ];
                 } else {
                     return [
                         NAME,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}`,
-                        `${NAME}.${this.tx.type}.${WavesApp.type}.Error`,
+                        `${NAME}.${this.tx.type}.${EarthsApp.type}`,
+                        `${NAME}.${this.tx.type}.${EarthsApp.type}.Error`,
                         amount
                     ];
                 }
@@ -132,7 +132,7 @@
              * @private
              */
             _saveIssueAsset(tx) {
-                waves.node.height().then(height => {
+                earths.node.height().then(height => {
                     ds.assetStorage.save(tx.id, new Asset({
                         ...tx,
                         ticker: null,
@@ -147,9 +147,9 @@
              */
             initExportLink() {
                 this.signable.getDataForApi().then(data => {
-                    this.exportLink = `${WavesApp.origin}/#tx${utils.createQS(data)}`;
+                    this.exportLink = `${EarthsApp.origin}/#tx${utils.createQS(data)}`;
                     this.canCreateLink = data.type !== SIGN_TYPE.MASS_TRANSFER &&
-                        this.exportLink.length <= WavesApp.MAX_URL_LENGTH;
+                        this.exportLink.length <= EarthsApp.MAX_URL_LENGTH;
                     this.__$scope.$apply();
                 });
             }
@@ -166,7 +166,7 @@
                             }
                         });
                     }
-                    this.tx = waves.node.transactions.createTransaction(this.signable.getTxData());
+                    this.tx = earths.node.transactions.createTransaction(this.signable.getTxData());
                     this.signable.getId().then(id => {
                         this.txId = id;
                         this.__$scope.$digest();
@@ -204,7 +204,7 @@
         return ConfirmTxService;
     };
 
-    factory.$inject = ['Base', 'waves', 'utils', '$mdDialog', 'modalManager'];
+    factory.$inject = ['Base', 'earths', 'utils', '$mdDialog', 'modalManager'];
 
     angular.module('app.ui').factory('ConfirmTxService', factory);
 })();

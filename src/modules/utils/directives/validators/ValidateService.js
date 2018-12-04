@@ -3,14 +3,14 @@
     'use strict';
 
     /**
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {$q} $q
      * @param {Object.<string, {function} isValidAddress>} outerBlockchains
      * @param {app.utils} utils
      * @param {User} user
      * @return {ValidateService}
      */
-    const factory = function (waves, $q, outerBlockchains, utils, user) {
+    const factory = function (earths, $q, outerBlockchains, utils, user) {
 
         class ValidateService {
 
@@ -76,7 +76,7 @@
             }
 
             anyAddress(address, assetId) {
-                return this.outerBlockchains(address, assetId) ? true : this.wavesAddress(address);
+                return this.outerBlockchains(address, assetId) ? true : this.earthsAddress(address);
             }
 
             /**
@@ -84,7 +84,7 @@
              * @param {'no-self'} [value]
              * @return {Promise<boolean>}
              */
-            wavesAddress(address, value) {
+            earthsAddress(address, value) {
                 return utils.whenAll([
                     this.alias(address, value),
                     this.address(address, value)
@@ -117,21 +117,21 @@
                     return true;
                 }
 
-                if (address.length < WavesApp.minAliasLength) {
+                if (address.length < EarthsApp.minAliasLength) {
                     return false;
                 }
 
-                if (address.length > WavesApp.maxAliasLength) {
+                if (address.length > EarthsApp.maxAliasLength) {
                     return false;
                 }
 
-                if (!waves.node.aliases.validate(address)) {
+                if (!earths.node.aliases.validate(address)) {
                     return false;
                 } else if (value && value === 'no-self') {
-                    return !waves.node.aliases.getAliasList().includes(address) &&
-                        waves.node.aliases.getAddress(address);
+                    return !earths.node.aliases.getAliasList().includes(address) &&
+                        earths.node.aliases.getAddress(address);
                 } else {
-                    return waves.node.aliases.getAddress(address);
+                    return earths.node.aliases.getAddress(address);
                 }
             }
 
@@ -140,15 +140,15 @@
                     return true;
                 }
 
-                if (address.length <= WavesApp.maxAliasLength) {
+                if (address.length <= EarthsApp.maxAliasLength) {
                     return false;
                 }
 
-                if (address.length > WavesApp.maxAddressLength) {
+                if (address.length > EarthsApp.maxAddressLength) {
                     return false;
                 }
 
-                if (!waves.node.isValidAddress(address)) {
+                if (!earths.node.isValidAddress(address)) {
                     return false;
                 }
 
@@ -175,7 +175,7 @@
                     case 'object':
                         if (item instanceof BigNumber) {
                             return item;
-                        } else if (item instanceof ds.wavesDataEntities.Money) {
+                        } else if (item instanceof ds.earthsDataEntities.Money) {
                             return item.getTokens();
                         } else {
                             return null;
@@ -206,7 +206,7 @@
         return utils.bind(new ValidateService());
     };
 
-    factory.$inject = ['waves', '$q', 'outerBlockchains', 'utils', 'user'];
+    factory.$inject = ['earths', '$q', 'outerBlockchains', 'utils', 'user'];
 
     angular.module('app.utils').factory('validateService', factory);
 })();

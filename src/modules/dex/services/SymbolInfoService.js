@@ -12,7 +12,7 @@
         // TODO : check all that
         has_intraday: true,
         // intraday_multipliers: ['5'],
-        supported_resolutions: WavesApp.dex.resolutions,
+        supported_resolutions: EarthsApp.dex.resolutions,
         has_seconds: false,
         // seconds_multipliers: ['5'],
         has_daily: false,
@@ -24,11 +24,11 @@
     };
 
     /**
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {app.utils.decorators} decorators
      * @return {SymbolInfoService}
      */
-    const factory = function (waves, decorators) {
+    const factory = function (earths, decorators) {
 
         class SymbolInfoService {
 
@@ -48,10 +48,10 @@
                     const amount = pair.amountAsset;
                     const price = pair.priceAsset;
 
-                    // TODO : remove when Waves.Asset is created via factory
+                    // TODO : remove when Earths.Asset is created via factory
                     return Promise.all([
-                        waves.node.assets.getAsset(amount.id),
-                        waves.node.assets.getAsset(price.id)
+                        earths.node.assets.getAsset(amount.id),
+                        earths.node.assets.getAsset(price.id)
                     ]).then(([amountInfo, priceInfo]) => {
                         const amountName = amountInfo.ticker ? amountInfo.ticker : amountInfo.name;
                         const priceName = priceInfo.ticker ? priceInfo.ticker : priceInfo.name;
@@ -66,7 +66,7 @@
                             description: symbolName,
                             name: symbolName,
                             ticker,
-                            _wavesData: {
+                            _earthsData: {
                                 amountAsset: amountInfo,
                                 priceAsset: priceInfo
                             }
@@ -80,7 +80,7 @@
         return new SymbolInfoService();
     };
 
-    factory.$inject = ['waves', 'decorators'];
+    factory.$inject = ['earths', 'decorators'];
 
     angular.module('app.dex').factory('symbolInfoService', factory);
 })();

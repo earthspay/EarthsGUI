@@ -18,7 +18,7 @@
                 this._events = {};
                 this.cssRules = {};
                 this.currentTheme = DEFAULT_THEME;
-                this.themes = WavesApp.themesConf.themes;
+                this.themes = EarthsApp.themesConf.themes;
                 this.candleColors = {};
                 this._initCssStyleEl();
                 this.changeTheme();
@@ -56,7 +56,7 @@
             }
 
             getSettings(theme) {
-                return WavesApp.themesConf[theme || this.currentTheme || DEFAULT_THEME] || {};
+                return EarthsApp.themesConf[theme || this.currentTheme || DEFAULT_THEME] || {};
             }
 
             getTradingViewConfig(theme) {

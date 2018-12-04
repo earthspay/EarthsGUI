@@ -5,11 +5,11 @@
      * @param Base
      * @param {User} user
      * @param i18n
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {app.utils} utils
      * @return {TransactionList}
      */
-    const controller = function (Base, user, i18n, waves, utils) {
+    const controller = function (Base, user, i18n, earths, utils) {
 
         class TransactionList extends Base {
 
@@ -70,7 +70,7 @@
         'Base',
         'user',
         'i18n',
-        'waves',
+        'earths',
         'utils'
     ];
 

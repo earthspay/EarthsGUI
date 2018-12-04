@@ -59,7 +59,7 @@
         user.onLogin().then(() => {
             const notShownUpdates = user.getSetting('whatsNewList');
             const lastOpenVersion = user.getSetting('lastOpenVersion');
-            const newVersionList = migration.migrateFrom(lastOpenVersion || WavesApp.version, MIGRATION_LIST);
+            const newVersionList = migration.migrateFrom(lastOpenVersion || EarthsApp.version, MIGRATION_LIST);
 
             migration.sort(unique(newVersionList, notShownUpdates)).forEach((version) => {
                 notification.info({
@@ -78,7 +78,7 @@
             });
 
             addVersions(newVersionList);
-            user.setSetting('lastOpenVersion', WavesApp.version);
+            user.setSetting('lastOpenVersion', EarthsApp.version);
         });
 
         return Object.create(null);

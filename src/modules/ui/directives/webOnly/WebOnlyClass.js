@@ -6,7 +6,7 @@
         restrict: 'A',
         scope: false,
         link: ($scope, $element, $attr) => {
-            if (WavesApp.isWeb()) {
+            if (EarthsApp.isWeb()) {
                 $element.addClass($attr.wWebOnlyClass);
             }
         }

@@ -1,11 +1,11 @@
-<!-- See the LICENSE file at https://github.com/wavesplatform/WavesGUI/blob/master/LICENSE. Removal or modification of this copyright notice is prohibited. -->
+<!-- See the LICENSE file at https://github.com/earthspay/EarthsGUI/blob/master/LICENSE. Removal or modification of this copyright notice is prohibited. -->
 
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Waves Client</title>
+    <title>Earths Client</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
     <script>
@@ -63,10 +63,10 @@
             margin-bottom: 30px;
         }
 
-        .connection-problem .waves-logo {
+        .connection-problem .earths-logo {
             width: 100px;
             height: 21px;
-            background: url(/img/icons/waves_logo.svg) no-repeat;
+            background: url(/img/icons/earths_logo.svg) no-repeat;
             display: block;
             margin: 0 auto 80px auto;
         }
@@ -284,9 +284,9 @@
         window.addEventListener('load', function () {
             var __interval = setInterval(function () {
 
-                WavesApp = WavesApp || { state: 'loading' };
+                EarthsApp = EarthsApp || { state: 'loading' };
 
-                switch (WavesApp.state) {
+                switch (EarthsApp.state) {
                     case 'loading':
                     case 'loadingError':
                         clearInterval(__interval);
@@ -308,10 +308,10 @@
         var __controllers = Object.create(null);
 
         /**
-         * @type {IWavesApp}
+         * @type {IEarthsApp}
          */
-        var WavesApp = {
-            name: 'Waves Client',
+        var EarthsApp = {
+            name: 'Earths Client',
             version: '{{pack.version}}',
             type: (window.isDesktop || !window.buildIsWeb) ? 'desktop' : 'web',
             matcherPriorityList: {{{matcherPriorityList}}},
@@ -334,7 +334,7 @@
                 featuresConfigUrl: '{{network.featuresConfigUrl}}'
             },
             defaultAssets: {
-                WAVES: 'WAVES',
+                EARTHS: 'EARTHS',
                 EUR: '{{network.assets.EUR}}',
                 USD: '{{network.assets.USD}}',
                 BTC: '{{network.assets.BTC}}',
@@ -347,7 +347,7 @@
                 XMR: '{{network.assets.XMR}}'
             },
 
-            ALWAYS_PINNED_ASSETS: ['WAVES'],
+            ALWAYS_PINNED_ASSETS: ['EARTHS'],
 
             otherAssetsWithIcons: {
                 // TODO @xenohunter : remove that when icons are in @dvshur's service
@@ -412,7 +412,7 @@
                 }
             },
             getLocaleData: function () {
-                return WavesApp.localize[i18next.language];
+                return EarthsApp.localize[i18next.language];
             },
             addController: function (name, controller) {
                 __controllers[name] = controller;
@@ -438,7 +438,7 @@
                 exchangeTimeout: 100000,
             },
             reload: function () {
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     transfer('reload');
                 } else {
                     window.location.reload();
@@ -502,16 +502,16 @@
 </div>
 
 <div class="connection-problem">
-    <div class="waves-logo"><img src="/img/icons/waves_logo.svg"/></div>
+    <div class="earths-logo"><img src="/img/icons/earths_logo.svg"/></div>
     <img src="/img/no-preload/connection-error.svg" class="margin-3"/>
     <div class="headline-1">We couldn't connect to the server</div>
         <div class="body-1 basic-500">Check your internet connection and try again.</div>
         <div class="body-1 margin-4 basic-500">
-            <div>If you have been using the Waves Desktop app and refreshing does</div>
+            <div>If you have been using the Earths Desktop app and refreshing does</div>
             <div>not help, try reinstalling the app. Download the latest version from</div>
-            <div>the official Waves site.</div>
+            <div>the official Earths site.</div>
         </div>
-    <button class="submit big submit" onclick="WavesApp.reload();">Refresh page</button>
+    <button class="submit big submit" onclick="EarthsApp.reload();">Refresh page</button>
 </div>
 
 <div class="not-supported-browser">
@@ -556,18 +556,18 @@
 <!-- JAVASCRIPT -->
 
 <script>
-    window.BigNumber = ds.wavesDataEntities.BigNumber;
+    window.BigNumber = ds.earthsDataEntities.BigNumber;
 
     // Signed 64-bit integer.
-    WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
+    EarthsApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
-    WavesApp.device = new MobileDetect(navigator.userAgent);
+    EarthsApp.device = new MobileDetect(navigator.userAgent);
 
     (function () {
         var wrapper = require('worker-wrapper');
 
         var worker = wrapper.create({
-            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+            libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + EarthsApp.version]
         });
 
         worker.process(function () {
@@ -575,13 +575,13 @@
         });
 
         var stringify = parseJsonBignumber({ BigNumber: BigNumber }).stringify;
-        WavesApp.parseJSON = function (str) {
+        EarthsApp.parseJSON = function (str) {
             return worker.process(function (str) {
                 return parse(str);
             }, str);
         };
 
-        WavesApp.stringifyJSON = function () {
+        EarthsApp.stringifyJSON = function () {
             return stringify.apply(this, arguments);
         };
     })();
@@ -613,7 +613,7 @@
         modal.parentNode.removeChild(modal);
     }
 
-    if (WavesApp.isDesktop()) {
+    if (EarthsApp.isDesktop()) {
         var listenDevTools = false;
         Mousetrap.bind('i d d q d', function () {
             if (!listenDevTools) {
@@ -625,7 +625,7 @@
 
     Mousetrap.bind('c l e a n a l l', function () {
         localStorage.clear();
-        if (WavesApp.isDesktop()) {
+        if (EarthsApp.isDesktop()) {
             transfer('reload');
         } else {
             window.location.reload();
@@ -637,7 +637,7 @@
      */
     var analytics = eventSender.default.inactive();
 
-    WavesApp.stateTree = new tsUtils.Tree({
+    EarthsApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
             {
@@ -681,7 +681,7 @@
             {
                 id: 'keeper',
                 data: {
-                    url: '/import/waveskeeper',
+                    url: '/import/earthskeeper',
                     noLogin: true,
                     views: [{ name: 'main' }]
                 }
@@ -754,7 +754,7 @@
     });
 
     /**
-     * @typedef {object} IWavesApp
+     * @typedef {object} IEarthsApp
      * @property {string} name
      * @property {string} version
      * @property {string} type
@@ -768,9 +768,9 @@
      * @property {number} maxAddressLength
      * @property {\{count: number, timeType: string\}} matcherSignInterval
      * @property {BigNumber} maxCoinsCount
-     * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
-     * @property {typeof WavesApp.network} network
-     * @property {typeof WavesApp.defaultAssets} defaultAssets
+     * @property {typeof EarthsApp.TRANSACTION_TYPES} TRANSACTION_TYPES
+     * @property {typeof EarthsApp.network} network
+     * @property {typeof EarthsApp.defaultAssets} defaultAssets
      * @property {Array<string>} ALWAYS_PINNED_ASSETS
      * @property {object} remappedAssetNames
      * @property {object} dex

@@ -51,7 +51,7 @@
             }
 
             _getBalances() {
-                const Money = ds.wavesDataEntities.Money;
+                const Money = ds.earthsDataEntities.Money;
                 return this._data
                     .map((item) => {
                         const value = item.value instanceof Money ? item.value.getTokens() : item.value;

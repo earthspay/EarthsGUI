@@ -1,4 +1,4 @@
-import { Money } from '@waves/data-entities';
+import { Money } from '@earths/data-entities';
 import { IPollAPI, Poll } from '../utils/Poll';
 import { balanceList } from '../api/assets/assets';
 import { getReservedBalance } from '../api/matcher/getOrders';

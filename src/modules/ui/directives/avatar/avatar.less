@@ -27,7 +27,7 @@ w-avatar .avatar-wrap {
 }
 
 w-avatar[type='ledger'],
-w-avatar[type='wavesKeeper'] {
+w-avatar[type='earthsKeeper'] {
   .avatar-wrap:not(.scripted) {
     &::after {
       .avatar-label;
@@ -42,7 +42,7 @@ w-avatar {
     }
   }
 
-  &[type='wavesKeeper'] {
+  &[type='earthsKeeper'] {
     .avatar-wrap:not(.scripted)::after {
       background-image: @keeper-mini-icon;
     }
@@ -51,7 +51,7 @@ w-avatar {
 
 w-avatar[type='seed'],
 w-avatar[type='ledger'],
-w-avatar[type='wavesKeeper'] {
+w-avatar[type='earthsKeeper'] {
   .avatar-wrap.scripted {
     &::after {
       .avatar-label;

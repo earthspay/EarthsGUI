@@ -2,12 +2,12 @@
     'use strict';
 
     const SEPA_GATEWAYS = {
-        [WavesApp.defaultAssets.USD]: 'USD',
-        [WavesApp.defaultAssets.EUR]: 'EUR',
-        [WavesApp.defaultAssets.TRY]: 'TRY'
+        [EarthsApp.defaultAssets.USD]: 'USD',
+        [EarthsApp.defaultAssets.EUR]: 'EUR',
+        [EarthsApp.defaultAssets.TRY]: 'TRY'
     };
 
-    const KNOWLEDGE_BASE = `${WavesApp.network.support}/forums/2-knowledge-base/topics`;
+    const KNOWLEDGE_BASE = `${EarthsApp.network.support}/forums/2-knowledge-base/topics`;
     const SEPA_COUNTRIES_URL = `${KNOWLEDGE_BASE}/1304-list-of-accepted-countries-and-documents-for-verification`;
 
     const ID_NOW_SITE_URL = 'https://idnow.eu';
@@ -29,15 +29,15 @@
 
             /**
              * @param {Asset} asset
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @return {Promise}
              */
-            getSepaDetails(asset, wavesAddress) {
+            getSepaDetails(asset, earthsAddress) {
                 CoinomatSepaService._assertAsset(asset.id);
                 return Promise.resolve({
                     listOfEligibleCountries: SEPA_COUNTRIES_URL,
                     idNowSiteUrl: ID_NOW_SITE_URL,
-                    idNowUserLink: `${ID_NOW_PATH}/${wavesAddress}`
+                    idNowUserLink: `${ID_NOW_PATH}/${earthsAddress}`
                 });
             }
 

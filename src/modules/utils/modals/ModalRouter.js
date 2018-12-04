@@ -4,12 +4,12 @@
     /**
      * @param {User} user
      * @param {ModalManager} modalManager
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {typeof Router} Router
      * @param {app.utils} utils
      * @return {ModalRouter}
      */
-    const factory = function (user, modalManager, waves, Router, utils) {
+    const factory = function (user, modalManager, earths, Router, utils) {
 
         class ModalRouter {
 
@@ -28,7 +28,7 @@
                 this._router = new Router();
                 this._router.registerRouteHash(this._wrapClose(this._getRoutes()));
 
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     window.listenMainProcessEvent((eventType, urlString) => {
                         user.onLogin().then(() => {
                             const { hash } = utils.parseElectronUrl(urlString);
@@ -47,7 +47,7 @@
                     }
                 }, false);
 
-                waves.node.assets.userBalances().then(() => {
+                earths.node.assets.userBalances().then(() => {
                     this._apply(this._firstUrl);
                 });
             }
@@ -71,7 +71,7 @@
                         return modalManager.showSendAsset({ ...search, assetId });
                     },
                     [Router.ROUTES.ASSET_INFO]: ({ assetId }) => {
-                        return waves.node.assets.getAsset(assetId).then((asset) => {
+                        return earths.node.assets.getAsset(assetId).then((asset) => {
                             return modalManager.showAssetInfo(asset);
                         });
                     },
@@ -123,7 +123,7 @@
              * @private
              */
             static _getLocation() {
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     const lastIndex = location.hash.lastIndexOf('#');
                     const firstIndex = location.hash.indexOf('#');
                     return lastIndex > firstIndex ? location.hash.slice(lastIndex + 1) : '';
@@ -137,7 +137,7 @@
         return ModalRouter;
     };
 
-    factory.$inject = ['user', 'modalManager', 'waves', 'Router', 'utils'];
+    factory.$inject = ['user', 'modalManager', 'earths', 'Router', 'utils'];
 
     angular.module('app.ui').factory('ModalRouter', factory);
 })();

@@ -211,7 +211,7 @@
                     // debug: true,
                     locale: DexCandleChart._remapLanguageCode(i18next.language),
                     symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
-                    interval: WavesApp.dex.defaultResolution,
+                    interval: EarthsApp.dex.defaultResolution,
                     container_id: this.elementId,
                     datafeed: candlesService,
                     library_path: 'trading-view/',

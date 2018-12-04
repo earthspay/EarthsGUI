@@ -2,17 +2,17 @@
     'use strict';
 
     const GATEWAYS = {
-        [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', gateway: 'BTC' },
-        [WavesApp.defaultAssets.ETH]: { waves: 'WETH', gateway: 'ETH' },
-        [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
-        [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
-        [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' },
-        [WavesApp.defaultAssets.DASH]: { waves: 'WDASH', gateway: 'DASH' },
-        [WavesApp.defaultAssets.XMR]: { waves: 'WXMR', gateway: 'XMR' }
+        [EarthsApp.defaultAssets.BTC]: { earths: 'WBTC', gateway: 'BTC' },
+        [EarthsApp.defaultAssets.ETH]: { earths: 'WETH', gateway: 'ETH' },
+        [EarthsApp.defaultAssets.LTC]: { earths: 'WLTC', gateway: 'LTC' },
+        [EarthsApp.defaultAssets.ZEC]: { earths: 'WZEC', gateway: 'ZEC' },
+        [EarthsApp.defaultAssets.BCH]: { earths: 'WBCH', gateway: 'BCH' },
+        [EarthsApp.defaultAssets.DASH]: { earths: 'WDASH', gateway: 'DASH' },
+        [EarthsApp.defaultAssets.XMR]: { earths: 'WXMR', gateway: 'XMR' }
     };
 
-    const PATH_V1 = `${WavesApp.network.coinomat}/api/v1`;
-    const PATH_V2 = `${WavesApp.network.coinomat}/api/v2`;
+    const PATH_V1 = `${EarthsApp.network.coinomat}/api/v1`;
+    const PATH_V2 = `${EarthsApp.network.coinomat}/api/v2`;
     const LANGUAGE = 'ru_RU';
 
     // That is used to access values from `**/locales/*.json` files
@@ -32,22 +32,22 @@
             }
 
             /**
-             * From Coinomat to Waves
+             * From Coinomat to Earths
              * @param {Asset} asset
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @return {Promise}
              */
-            getDepositDetails(asset, wavesAddress) {
+            getDepositDetails(asset, earthsAddress) {
                 CoinomatService._assertAsset(asset.id);
                 const from = GATEWAYS[asset.id].gateway;
-                const to = GATEWAYS[asset.id].waves;
-                return this._loadPaymentDetails(from, to, wavesAddress).then((details) => {
+                const to = GATEWAYS[asset.id].earths;
+                return this._loadPaymentDetails(from, to, earthsAddress).then((details) => {
                     return { address: details.tunnel.wallet_from };
                 });
             }
 
             /**
-             * From Waves to Coinomat
+             * From Earths to Coinomat
              * @param {Asset} asset
              * @param {string} targetAddress
              * @param {string} [paymentId]
@@ -55,7 +55,7 @@
              */
             getWithdrawDetails(asset, targetAddress, paymentId) {
                 CoinomatService._assertAsset(asset.id);
-                const from = GATEWAYS[asset.id].waves;
+                const from = GATEWAYS[asset.id].earths;
                 const to = GATEWAYS[asset.id].gateway;
                 return Promise.all([
                     this._loadPaymentDetails(from, to, targetAddress, paymentId),

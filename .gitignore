@@ -18,7 +18,7 @@
 *.p12
 *.pfx
 **/**/.DS_Store
-WavesGUI.iml
+EarthsGUI.iml
 /.cache-download
 /data-service/**/*.js
 /data-service/**/*.js.map

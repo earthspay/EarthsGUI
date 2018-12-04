@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {User} user
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
@@ -16,11 +16,11 @@
      * @param {ModalManager} modalManager
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $scope,
+    const controller = function (Base, earths, user, utils, createPoll, $scope,
                                  $element, notification, dexDataService, ease, $state, modalManager) {
 
-        const entities = require('@waves/data-entities');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const entities = require('@earths/data-entities');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
         const ds = require('data-service');
 
         class CreateOrder extends Base {
@@ -130,7 +130,7 @@
 
                 this.expiration = this.expirationValues[this.expirationValues.length - 1].value;
 
-                ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
+                ds.moneyFromTokens('0.003', EarthsApp.defaultAssets.EARTHS).then((money) => {
                     this.fee = money;
                     $scope.$digest();
                 });
@@ -318,7 +318,7 @@
                                 notify.addClass('success');
                                 this.createOrderFailed = false;
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Success`, pair);
+                                analytics.push('DEX', `DEX.${EarthsApp.type}.Order.${this.type}.Success`, pair);
                                 dexDataService.createOrder.dispatch();
                             })
                             .catch(e => {
@@ -335,7 +335,7 @@
                                 this.createOrderFailed = true;
                                 notify.addClass('error');
                                 const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
-                                analytics.push('DEX', `DEX.${WavesApp.type}.Order.${this.type}.Error`, pair);
+                                analytics.push('DEX', `DEX.${EarthsApp.type}.Order.${this.type}.Error`, pair);
 
                             })
                             .finally(() => {
@@ -528,8 +528,8 @@
                 if (!this.idDemo) {
                     return ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                         return utils.whenAll([
-                            waves.node.assets.balance(pair.amountAsset.id),
-                            waves.node.assets.balance(pair.priceAsset.id)
+                            earths.node.assets.balance(pair.amountAsset.id),
+                            earths.node.assets.balance(pair.priceAsset.id)
                         ]).then(([amountMoney, priceMoney]) => ({
                             amountBalance: amountMoney.available,
                             priceBalance: priceMoney.available
@@ -615,7 +615,7 @@
              * @private
              */
             _getData() {
-                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
+                return earths.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread }) => {
                         const [lastAsk] = asks;
                         const [firstBid] = bids;
@@ -695,7 +695,7 @@
 
     controller.$inject = [
         'Base',
-        'waves',
+        'earths',
         'user',
         'utils',
         'createPoll',

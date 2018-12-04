@@ -18,9 +18,9 @@
                 /**
                  * @type {string[]}
                  */
-                this.list = Object.keys(WavesApp.localize).map((key) => ({
+                this.list = Object.keys(EarthsApp.localize).map((key) => ({
                     code: key,
-                    name: WavesApp.localize[key].name
+                    name: EarthsApp.localize[key].name
                 }));
 
                 if (i18next.language) {

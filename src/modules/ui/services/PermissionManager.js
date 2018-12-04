@@ -29,7 +29,7 @@
             }
 
             _getFeaturesConfig() {
-                return ds.fetch(WavesApp.network.featuresConfigUrl);
+                return ds.fetch(EarthsApp.network.featuresConfigUrl);
             }
 
             _applyPermissions(features) {

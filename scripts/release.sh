@@ -11,7 +11,7 @@ current=$(cat package.json \
 
 latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
 DATE=`date +%Y-%m-%d`
-data="{\"tag_name\":\"v$current\",\"target_commitish\":\"master\",\"name\":\"v$current\",\"body\":\"<a name=\\\"$current\\\"></a>\n## [$current](https://github.com/wavesplatform/WavesGUI/compare/$latestTag...v$current) ($DATE)\n### Bug Fixes\",\"draft\":true,\"prerelease\":true}"
+data="{\"tag_name\":\"v$current\",\"target_commitish\":\"master\",\"name\":\"v$current\",\"body\":\"<a name=\\\"$current\\\"></a>\n## [$current](https://github.com/earthspay/EarthsGUI/compare/$latestTag...v$current) ($DATE)\n### Bug Fixes\",\"draft\":true,\"prerelease\":true}"
 
 echo "$data"
 
@@ -21,4 +21,4 @@ read -r text
 curl --user "$text" \
   --request POST \
   --data "$data" \
-    https://api.github.com/repos/wavesplatform/WavesGUI/releases
+    https://api.github.com/repos/earthspay/EarthsGUI/releases

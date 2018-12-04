@@ -20,7 +20,7 @@
                 }
 
                 this.signable.getDataForApi().then(json => {
-                    this.json = WavesApp.stringifyJSON(json, null, 4);
+                    this.json = EarthsApp.stringifyJSON(json, null, 4);
                     $scope.$apply();
                 });
             }

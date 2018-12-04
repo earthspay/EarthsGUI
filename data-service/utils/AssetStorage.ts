@@ -1,7 +1,7 @@
-import { Asset } from '@waves/data-entities';
+import { Asset } from '@earths/data-entities';
 import { IHash } from '../interface';
 import { isPromise, toArray } from './utils';
-import { BigNumber } from "@waves/data-entities/dist/libs/bignumber";
+import { BigNumber } from "@earths/data-entities/dist/libs/bignumber";
 
 type TAssetORList = Asset | Array<Asset>;
 type TIdOrList = string | Array<string>;

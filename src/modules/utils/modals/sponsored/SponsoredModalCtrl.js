@@ -5,14 +5,14 @@
      * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @return {SponsoredModalCtrl}
      */
-    const controller = function (Base, $scope, createPoll, waves) {
+    const controller = function (Base, $scope, createPoll, earths) {
 
         const { isEmpty } = require('ts-utils');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const { Money } = require('@waves/data-entities');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
+        const { Money } = require('@earths/data-entities');
 
         class SponsoredModalCtrl extends Base {
 
@@ -46,7 +46,7 @@
              * @type {Money}
              * @private
              */
-            wavesBalance = null;
+            earthsBalance = null;
             /**
              * @type {ISponsorshipTx}
              * @private
@@ -97,7 +97,7 @@
 
                 const { fee, minSponsoredAssetFee } = this;
                 const type = SIGN_TYPE.SPONSORSHIP;
-                const tx = waves.node.transactions.createTransaction({
+                const tx = earths.node.transactions.createTransaction({
                     fee,
                     type,
                     minSponsoredAssetFee
@@ -113,16 +113,16 @@
              * @private
              */
             _getBalances() {
-                return waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES, this.assetId]);
+                return earths.node.assets.balanceList([EarthsApp.defaultAssets.EARTHS, this.assetId]);
             }
 
             /**
-             * @param waves
+             * @param earths
              * @param assetBalance
              * @private
              */
-            _setBalances([waves, assetBalance]) {
-                this.wavesBalance = waves.available;
+            _setBalances([earths, assetBalance]) {
+                this.earthsBalance = earths.available;
                 this.assetBalance = assetBalance;
                 this._updateAvilableFee();
             }
@@ -132,7 +132,7 @@
              */
             _updateFee() {
                 return this._getTxForFee()
-                    .then(tx => waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, tx }))
+                    .then(tx => earths.node.getFee({ type: EarthsApp.TRANSACTION_TYPES.NODE.SPONSORSHIP, tx }))
                     .then(fee => {
                         this.fee = fee;
                         this._updateAvilableFee();
@@ -143,8 +143,8 @@
              * @private
              */
             _updateAvilableFee() {
-                if (this.fee && this.wavesBalance) {
-                    this.canSendTransaction = this.wavesBalance.gte(this.fee);
+                if (this.fee && this.earthsBalance) {
+                    this.canSendTransaction = this.earthsBalance.gte(this.fee);
                 }
             }
 
@@ -162,7 +162,7 @@
         return new SponsoredModalCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'waves'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'earths'];
 
     angular.module('app.utils').controller('SponsoredModalCtrl', controller);
 })();

@@ -18,7 +18,7 @@
                 this.userType = locals.userType;
                 this.userAddress = locals.address;
                 this.isLedger = this.userType === 'ledger';
-                this.isKeeper = this.userType === 'wavesKeeper';
+                this.isKeeper = this.userType === 'earthsKeeper';
                 this.loading = true;
             }
 

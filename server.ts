@@ -106,7 +106,7 @@ function parseCookie(header = ''): IRequestData {
 
 const handlers = [
     coinomat,
-    wavesClientConfig,
+    earthsClientConfig,
     handler as any
 ];
 
@@ -123,14 +123,14 @@ function request(req, res) {
     next();
 }
 
-function wavesClientConfig(req, res, next) {
-    if (!req.url.includes('waves-client-config')) {
+function earthsClientConfig(req, res, next) {
+    if (!req.url.includes('earths-client-config')) {
         next();
         return null;
     }
     let response_json = { error: 'oops' };
 
-    const path = join(__dirname, 'mocks/waves-client-config/master/config.json');
+    const path = join(__dirname, 'mocks/earths-client-config/master/config.json');
     if (fs.existsSync(path)) {
         response_json = JSON.parse(fs.readFileSync(path, 'utf8')) || '';
     }

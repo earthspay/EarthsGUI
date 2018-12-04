@@ -2,10 +2,10 @@
     'use strict';
 
     const CARD_GATEWAYS = {
-        [WavesApp.defaultAssets.WAVES]: 'WAVES'
+        [EarthsApp.defaultAssets.EARTHS]: 'EARTHS'
     };
 
-    const PATH = `${WavesApp.network.coinomat}/api/v2/indacoin`;
+    const PATH = `${EarthsApp.network.coinomat}/api/v2/indacoin`;
 
     // That is used to access values from `**/locales/*.json` files
     const KEY_NAME_PREFIX = 'coinomat';
@@ -23,15 +23,15 @@
 
             /**
              * @param {Asset} crypto
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @param {Array} fiatList
              * @return {*}
              */
-            getFiatWithLimits(crypto, wavesAddress, fiatList) {
+            getFiatWithLimits(crypto, earthsAddress, fiatList) {
                 CoinomatCardService._assertAsset(crypto);
                 const to = CARD_GATEWAYS[crypto.id];
                 return Promise.all(fiatList.map((fiat) => {
-                    return this._loadBuyLimits(to, fiat.fiatCode, wavesAddress).then((limits) => {
+                    return this._loadBuyLimits(to, fiat.fiatCode, earthsAddress).then((limits) => {
                         return { ...fiat, ...limits };
                     });
                 }));
@@ -40,16 +40,16 @@
             /**
              * @param {Asset} crypto
              * @param {string} fiat
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @param {number} fiatAmount
              * @return {Promise<number>}
              */
-            getApproximateCryptoAmount(crypto, fiat, wavesAddress, fiatAmount) {
+            getApproximateCryptoAmount(crypto, fiat, earthsAddress, fiatAmount) {
                 CoinomatCardService._assertAsset(crypto);
                 return $.get(`${PATH}/rate.php`, {
                     crypto: CARD_GATEWAYS[crypto.id],
                     fiat: fiat,
-                    address: wavesAddress,
+                    address: earthsAddress,
                     amount: fiatAmount
                 });
             }
@@ -57,14 +57,14 @@
             /**
              * @param {Asset} crypto
              * @param {string} fiat
-             * @param {string} wavesAddress
+             * @param {string} earthsAddress
              * @param {number} fiatAmount
              * @return {string}
              */
-            getCardBuyLink(crypto, fiat, wavesAddress, fiatAmount) {
+            getCardBuyLink(crypto, fiat, earthsAddress, fiatAmount) {
                 CoinomatCardService._assertAsset(crypto);
                 const to = CARD_GATEWAYS[crypto.id];
-                return `${PATH}/buy.php?crypto=${to}&fiat=${fiat}&address=${wavesAddress}&amount=${fiatAmount}`;
+                return `${PATH}/buy.php?crypto=${to}&fiat=${fiat}&address=${earthsAddress}&amount=${fiatAmount}`;
             }
 
             /**

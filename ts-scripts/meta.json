@@ -1,7 +1,7 @@
 {
   "vendors": [
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
-    "node_modules/@waves/assets-pairs-order/dist/browser.js",
+    "node_modules/@earths/assets-pairs-order/dist/browser.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
     "node_modules/ramda/dist/ramda.min.js",
@@ -13,12 +13,12 @@
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
-    "node_modules/@waves/data-entities/dist/data-entities.js",
-    "node_modules/@waves/signature-generator/dist/signature-generator.partial.min.js",
-    "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js",
-    "node_modules/@waves/ledger/dist/transport-u2f.js",
-    "node_modules/@waves/ledger/dist/waves-ledger.js",
-    "node_modules/@waves/signature-adapter/dist/signature-adapter.min.js",
+    "node_modules/@earths/data-entities/dist/data-entities.js",
+    "node_modules/@earths/signature-generator/dist/signature-generator.partial.min.js",
+    "node_modules/@earths/earths-browser-bus/dist/browser-bus.min.js",
+    "node_modules/@earths/ledger/dist/transport-u2f.js",
+    "node_modules/@earths/ledger/dist/earths-ledger.js",
+    "node_modules/@earths/signature-adapter/dist/signature-adapter.min.js",
     "data-service-dist/data-service.js",
     "vendors/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
@@ -35,11 +35,11 @@
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/i18next/dist/umd/i18next.js",
     "node_modules/n3-charts/build/LineChart.min.js",
-    "node_modules/@waves/event-sender/dist/umd.js"
+    "node_modules/@earths/event-sender/dist/umd.js"
   ],
   "exportPageVendors": [
     "node_modules/ts-utils/dist/ts-utils.min.js",
-    "node_modules/@waves/waves-browser-bus/dist/browser-bus.min.js"
+    "node_modules/@earths/earths-browser-bus/dist/browser-bus.min.js"
   ],
   "langList": {
     "en": {
@@ -159,22 +159,22 @@
         "postinstall": "node_modules/.bin/electron-rebuild --force"
       }
     },
-    "server": "desktop.wavesplatform.com"
+    "server": "desktop.earths.ga"
   },
   "configurations": {
     "testnet": {
       "apiVersion": "v0",
       "code": "T",
-      "node": "https://pool.testnet.wavesnodes.com",
-      "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
-      "api": "https://api.testnet.wavesplatform.com",
-      "explorer": "https://testnet.wavesexplorer.com",
+      "node": "https://pool.testnet.earthsnodes.com",
+      "matcher": "https://matcher.testnet.earthsnodes.com/matcher",
+      "api": "https://api.testnet.earths.ga",
+      "explorer": "https://testnet.earthsexplorer.com",
       "coinomat": "https://localhost:8080/coinomat",
-      "support": "https://support.wavesplatform.com",
-      "nodeList": "http://dev.pywaves.org/testnet/generators/",
-      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "origin": "https://testnet.wavesplatform.com",
-      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
+      "support": "https://support.earths.ga",
+      "nodeList": "http://dev.pyearths.org/testnet/generators/",
+      "scamListUrl": "https://raw.githubusercontent.com/earthspay/earths-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Earths%20Community.csv",
+      "origin": "https://testnet.earths.ga",
+      "featuresConfigUrl": "https://raw.githubusercontent.com/earthspay/earths-client-config/master/config.json",
       "assets": {
         "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
         "USD": "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
@@ -193,16 +193,16 @@
     "mainnet": {
       "apiVersion": "v0",
       "code": "W",
-      "node": "https://nodes.wavesplatform.com",
-      "matcher": "https://matcher.wavesplatform.com/matcher",
-      "api": "https://api.wavesplatform.com",
-      "explorer": "https://wavesexplorer.com",
+      "node": "https://nodes.earths.ga",
+      "matcher": "https://matcher.earths.ga/matcher",
+      "api": "https://api.earths.ga",
+      "explorer": "https://earthsexplorer.com",
       "coinomat": "https://coinomat.com",
-      "support": "https://support.wavesplatform.com",
-      "nodeList": "https://forum.wavesplatform.com/c/pools",
-      "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
-      "origin": "https://client.wavesplatform.com",
-      "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
+      "support": "https://support.earths.ga",
+      "nodeList": "https://forum.earths.ga/c/pools",
+      "scamListUrl": "https://raw.githubusercontent.com/earthspay/earths-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Earths%20Community.csv",
+      "origin": "https://client.earths.ga",
+      "featuresConfigUrl": "https://raw.githubusercontent.com/earthspay/earths-client-config/master/config.json",
       "assets": {
         "EUR": "Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU",
         "USD": "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck",

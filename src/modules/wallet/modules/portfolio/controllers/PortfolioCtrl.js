@@ -17,7 +17,7 @@
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {app.utils} utils
      * @param {ModalManager} modalManager
      * @param {User} user
@@ -29,7 +29,7 @@
      * @param {VisibleService} visibleService
      * @return {PortfolioCtrl}
      */
-    const controller = function (Base, $scope, waves, utils, modalManager, user,
+    const controller = function (Base, $scope, earths, utils, modalManager, user,
                                  eventManager, createPoll, gatewayService, $state, stService, visibleService) {
 
         class PortfolioCtrl extends Base {
@@ -77,7 +77,7 @@
                  */
                 this.pending = true;
 
-                waves.node.assets.getAsset(this.mirrorId)
+                earths.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                         /**
@@ -198,7 +198,7 @@
             canShowDex(balance) {
                 return balance.isPinned ||
                     balance.asset.isMyAsset ||
-                    balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                    balance.asset.id === EarthsApp.defaultAssets.EARTHS ||
                     gatewayService.getPurchasableWithCards()[balance.asset.id] ||
                     gatewayService.getCryptocurrencies()[balance.asset.id] ||
                     gatewayService.getFiats()[balance.asset.id];
@@ -237,9 +237,9 @@
             }
 
             isDepositSupported(asset) {
-                const isWaves = asset.id === WavesApp.defaultAssets.WAVES;
+                const isEarths = asset.id === EarthsApp.defaultAssets.EARTHS;
 
-                return gatewayService.hasSupportOf(asset, 'deposit') || isWaves;
+                return gatewayService.hasSupportOf(asset, 'deposit') || isEarths;
             }
 
             isSepaSupported(asset) {
@@ -288,7 +288,7 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
-                    const isOnScamList = WavesApp.scam[item.asset.id];
+                    const isOnScamList = EarthsApp.scam[item.asset.id];
 
                     return Promise.resolve({
                         available: item.available,
@@ -303,7 +303,7 @@
                 };
 
                 return Promise.all([
-                    waves.node.assets.userBalances().then((list) => Promise.all(list.map(remapBalances)))
+                    earths.node.assets.userBalances().then((list) => Promise.all(list.map(remapBalances)))
                 ]).then(([activeList]) => {
 
                     const spam = [];
@@ -351,7 +351,7 @@
     controller.$inject = [
         'Base',
         '$scope',
-        'waves',
+        'earths',
         'utils',
         'modalManager',
         'user',

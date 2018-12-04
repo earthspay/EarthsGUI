@@ -7,7 +7,7 @@
     let clear;
     const tsUtils = require('ts-utils');
 
-    if (WavesApp.isWeb()) {
+    if (EarthsApp.isWeb()) {
         try {
             localStorage.setItem('___test', String(Date.now()));
         } catch (e) {
@@ -105,7 +105,7 @@
 
                 this.load('lastVersion')
                     .then((version) => {
-                        this.save('lastVersion', WavesApp.version);
+                        this.save('lastVersion', EarthsApp.version);
                         state.lastOpenVersion = version;
 
                         if (version) {

@@ -3,10 +3,10 @@
 
     /**
      * @param {typeof Base} Base
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {$rootScope.Scope} $scope
      */
-    const controller = function (Base, waves, $scope) {
+    const controller = function (Base, earths, $scope) {
 
         const { find } = require('ts-utils');
 
@@ -41,7 +41,7 @@
                     return null;
                 }
 
-                waves.node.getFeeList({ type: this.type }).then(list => {
+                earths.node.getFeeList({ type: this.type }).then(list => {
                     this.originalFeeList = list;
                     this._setActualFeeList();
                     if (!(this.fee && find(this.feeList, item => item.asset.id === this.fee.asset.id))) {
@@ -89,7 +89,7 @@
                     return null;
                 }
 
-                const wavesFee = list.find(item => item.asset.id === 'WAVES');
+                const earthsFee = list.find(item => item.asset.id === 'EARTHS');
                 const filteredList = list.filter((fee) => {
                     const feeBalance = this.balanceHash[fee.asset.id];
                     return !(!hasBalances || !feeBalance || feeBalance.lt(fee));
@@ -97,7 +97,7 @@
 
 
                 if (!filteredList.length) {
-                    filteredList.push(wavesFee);
+                    filteredList.push(earthsFee);
                 }
 
                 this.feeList = filteredList;
@@ -108,7 +108,7 @@
         return new FeeList();
     };
 
-    controller.$inject = ['Base', 'waves', '$scope'];
+    controller.$inject = ['Base', 'earths', '$scope'];
 
     angular.module('app.ui').component('wFeeList', {
         bindings: {

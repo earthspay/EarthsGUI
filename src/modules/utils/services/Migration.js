@@ -64,7 +64,7 @@
                 return function (version) {
                     return (
                         Migration.gt(version, lastVersion) &&
-                        Migration.lte(version, WavesApp.version)
+                        Migration.lte(version, EarthsApp.version)
                     );
                 };
             }

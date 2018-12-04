@@ -6,10 +6,10 @@
      * @param {object} $attrs
      * @param {IPollCreate} createPoll
      * @param {JQuery} $element
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @return {Change24}
      */
-    const controller = function (Base, $attrs, createPoll, $element, waves) {
+    const controller = function (Base, $attrs, createPoll, $element, earths) {
 
         class Change24 extends Base {
 
@@ -69,10 +69,10 @@
                 if (this.assetFrom && this.assetTo) {
                     if (this.directionByPair) {
                         return ds.api.pairs.get(this.assetFrom, this.assetTo).then((pair) => {
-                            return waves.utils.getChange(pair.amountAsset.id, pair.priceAsset.id);
+                            return earths.utils.getChange(pair.amountAsset.id, pair.priceAsset.id);
                         });
                     }
-                    return waves.utils.getChange(this.assetFrom, this.assetTo);
+                    return earths.utils.getChange(this.assetFrom, this.assetTo);
                 } else {
                     return Promise.resolve(null);
                 }
@@ -97,7 +97,7 @@
         return new Change24();
     };
 
-    controller.$inject = ['Base', '$attrs', 'createPoll', '$element', 'waves', 'i18n'];
+    controller.$inject = ['Base', '$attrs', 'createPoll', '$element', 'earths', 'i18n'];
 
     angular.module('app.ui').component('wChange24', {
         bindings: {

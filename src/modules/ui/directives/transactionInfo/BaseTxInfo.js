@@ -2,7 +2,7 @@
     'use strict';
 
     const PATH = 'modules/ui/directives/transactionInfo/types';
-    const { Money, BigNumber } = require('@waves/data-entities');
+    const { Money, BigNumber } = require('@earths/data-entities');
     const { get } = require('ts-utils');
 
     /**
@@ -11,10 +11,10 @@
      * @param explorerLinks
      * @param {BaseAssetService} baseAssetService
      * @param dexService
-     * @param waves
+     * @param earths
      * @return {BaseTxInfo}
      */
-    const factory = function (Base, $filter, explorerLinks, baseAssetService, dexService, waves) {
+    const factory = function (Base, $filter, explorerLinks, baseAssetService, dexService, earths) {
 
         class BaseTxInfo extends Base {
 
@@ -41,7 +41,7 @@
 
                 const $scope = this.$scope;
 
-                const transaction = waves.node.transactions.createTransaction(this.signable.getTxData());
+                const transaction = earths.node.transactions.createTransaction(this.signable.getTxData());
                 this.transaction = transaction;
 
                 this.signable.getId().then(id => {
@@ -54,7 +54,7 @@
                 this.shownAddress = transaction.shownAddress;
                 this.typeName = transaction.typeName;
                 this.numberOfRecipients = transaction.numberOfRecipients;
-                this.isScam = !!WavesApp.scam[this.transaction.assetId];
+                this.isScam = !!EarthsApp.scam[this.transaction.assetId];
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
                 if (transaction.amount || (transaction.lease && transaction.lease.amount)) {
                     const amount = transaction.amount || transaction.lease.amount;
@@ -66,7 +66,7 @@
                         });
                 }
 
-                const TYPES = waves.node.transactions.TYPES;
+                const TYPES = earths.node.transactions.TYPES;
 
                 if (this.typeName === TYPES.BURN || this.typeName === TYPES.ISSUE || this.typeName === TYPES.REISSUE) {
                     this.tokens();
@@ -114,7 +114,7 @@
         return BaseTxInfo;
     };
 
-    factory.$input = ['Base', '$filter', 'explorerLinks', 'baseAssetService', 'dexService', 'waves'];
+    factory.$input = ['Base', '$filter', 'explorerLinks', 'baseAssetService', 'dexService', 'earths'];
 
     angular.module('app.ui').factory('BaseTxInfo', factory);
 })();

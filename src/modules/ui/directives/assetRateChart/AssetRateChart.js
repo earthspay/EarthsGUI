@@ -4,12 +4,12 @@
     /**
      * @param {Base} Base
      * @param {IPollCreate} createPoll
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {app.utils} utils
      * @param {User} user
      * @return {AssetRateChart}
      */
-    const controller = function (Base, createPoll, waves, utils, user) {
+    const controller = function (Base, createPoll, earths, utils, user) {
 
         class AssetRateChart extends Base {
 
@@ -136,7 +136,7 @@
                     return Promise.resolve(null);
                 }
 
-                return waves.utils.getRateHistory(assetId, baseAssetId, startDate)
+                return earths.utils.getRateHistory(assetId, baseAssetId, startDate)
                     .then((values) => ({ values }));
             }
 
@@ -153,7 +153,7 @@
         return new AssetRateChart();
     };
 
-    controller.$inject = ['Base', 'createPoll', 'waves', 'utils', 'user'];
+    controller.$inject = ['Base', 'createPoll', 'earths', 'utils', 'user'];
 
     angular.module('app.ui').component('wAssetRateChart', {
         bindings: {

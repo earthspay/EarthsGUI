@@ -1,8 +1,8 @@
-import { Asset, Money, BigNumber } from '@waves/data-entities';
+import { Asset, Money, BigNumber } from '@earths/data-entities';
 import { get as configGet, getDataService } from '../../config';
 import { request } from '../../utils/request';
 import { IBalanceItem, assetsApi } from './interface';
-import { WAVES_ID } from '@waves/signature-generator';
+import { EARTHS_ID } from '@earths/signature-generator';
 import { assetStorage } from '../../utils/AssetStorage';
 import { clearTransferFee, normalizeAssetId, setTransferFeeItem, toArray, toHash } from '../../utils/utils';
 import { isEmpty } from 'ts-utils';
@@ -25,11 +25,11 @@ export function get(assets: string | Array<string>): Promise<any> {
 }
 
 export function getAssetFromNode(assetId: string): Promise<Asset> {
-    if (assetId === WAVES_ID) {
+    if (assetId === EARTHS_ID) {
         return Promise.resolve( new Asset({
-            ticker: 'WAVES',
-            id: 'WAVES',
-            name: 'Waves',
+            ticker: 'EARTHS',
+            id: 'EARTHS',
+            name: 'Earths',
             precision: 8,
             description: '',
             height: 0,
@@ -56,17 +56,17 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
 
 export function balanceList(address: string, txHash?: IHash<Money>, ordersHash?: IHash<Money>): Promise<Array<IBalanceItem>> {
     return Promise.all([
-        wavesBalance(address),
+        earthsBalance(address),
         assetsBalance(address)
     ])
-        .then(([waves, balances]) => applyTxAndOrdersDif([waves].concat(balances), txHash, ordersHash));
+        .then(([earths, balances]) => applyTxAndOrdersDif([earths].concat(balances), txHash, ordersHash));
 }
 
-export function wavesBalance(address: string): Promise<IBalanceItem> {
+export function earthsBalance(address: string): Promise<IBalanceItem> {
     return Promise.all([
-        get(WAVES_ID),
-        request<assetsApi.IWavesBalance>({ url: `${configGet('node')}/addresses/balance/details/${address}` })
-    ]).then(([waves, details]) => remapWavesBalance(waves, details));
+        get(EARTHS_ID),
+        request<assetsApi.IEarthsBalance>({ url: `${configGet('node')}/addresses/balance/details/${address}` })
+    ]).then(([earths, details]) => remapEarthsBalance(earths, details));
 }
 
 export function assetsBalance(address: string): Promise<Array<IBalanceItem>> {
@@ -83,15 +83,15 @@ export function assetsBalance(address: string): Promise<Array<IBalanceItem>> {
         });
 }
 
-export function remapWavesBalance(waves: Asset, data: assetsApi.IWavesBalance): IBalanceItem {
-    const inOrders = new Money(0, waves);
-    const regular = new Money(data.regular, waves);
-    const available = new Money(data.available, waves);
-    const leasedOut = new Money(data.regular, waves).sub(available);
-    const leasedIn = new Money(data.effective, waves).sub(available);
+export function remapEarthsBalance(earths: Asset, data: assetsApi.IEarthsBalance): IBalanceItem {
+    const inOrders = new Money(0, earths);
+    const regular = new Money(data.regular, earths);
+    const available = new Money(data.available, earths);
+    const leasedOut = new Money(data.regular, earths).sub(available);
+    const leasedIn = new Money(data.effective, earths).sub(available);
 
     return {
-        asset: waves,
+        asset: earths,
         regular,
         available,
         inOrders,
@@ -108,7 +108,7 @@ export function remapAssetsBalance(data: assetsApi.IBalanceList, assetsHash: IHa
         const regular = new Money(new BigNumber(assetData.balance), asset);
         const available = regular.sub(inOrders);
         const empty = new Money(new BigNumber('0'), asset);
-        const balance = isEmpty(assetData.sponsorBalance) ? null : new Money(assetData.sponsorBalance as string, assetsHash[WAVES_ID]);
+        const balance = isEmpty(assetData.sponsorBalance) ? null : new Money(assetData.sponsorBalance as string, assetsHash[EARTHS_ID]);
         const fee = isEmpty(assetData.minSponsoredAssetFee) ? null : new Money(assetData.minSponsoredAssetFee as string, asset);
         const { issueTransaction } = assetData;
         const { sender } = issueTransaction;
@@ -157,7 +157,7 @@ export function moneyDif(target: Money, ...toDif: Array<Money>): Money {
 }
 
 export function getAssetsByBalanceList(data: assetsApi.IBalanceList): Promise<Array<Asset>> {
-    return get([WAVES_ID, ...data.balances.map((balance) => normalizeAssetId(balance.assetId))]);
+    return get([EARTHS_ID, ...data.balances.map((balance) => normalizeAssetId(balance.assetId))]);
 }
 
 const splitRequest = (list: string[], getData) => {

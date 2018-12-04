@@ -1,5 +1,5 @@
 import { IHash } from '../interface';
-import { Money } from '@waves/data-entities';
+import { Money } from '@earths/data-entities';
 
 export class MoneyHash {
 

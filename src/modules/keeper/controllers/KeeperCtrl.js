@@ -10,7 +10,7 @@
      */
     const controller = function (Base, $scope, user) {
 
-        const signatureAdapter = require('@waves/signature-adapter');
+        const signatureAdapter = require('@earths/signature-adapter');
 
         class KeeperCtrl extends Base {
 
@@ -39,9 +39,9 @@
              */
             lockedKeeper = false;
             /**
-             * @type {WavesKeeperAdapter}
+             * @type {EarthsKeeperAdapter}
              */
-            adapter = signatureAdapter.WavesKeeperAdapter;
+            adapter = signatureAdapter.EarthsKeeperAdapter;
             /**
              * @type {boolean}
              */

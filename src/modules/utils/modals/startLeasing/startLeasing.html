@@ -34,7 +34,7 @@
                             <w-input class="big"
                                      type="text"
                                      w-validate
-                                     w-validator-waves-address="no-self"
+                                     w-validator-earths-address="no-self"
                                      name="recipient"
                                      ng-model="$ctrl.recipient"
                                      required></w-input>
@@ -62,7 +62,7 @@
                         </w-input-container>
                     </div>
                     <div class="row basic-500 margin-2">
-                        <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 WAVES
+                        <span w-i18n="modal.startLease.fee"></span>&nbsp;0.001 EARTHS
                     </div>
                     <w-sign-button disabled="lease.$invalid"
                                    on-click="$ctrl.sign()"

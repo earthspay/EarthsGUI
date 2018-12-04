@@ -32,7 +32,7 @@
 
             validate(alias) {
                 return alias.length >= 4 &&
-                    alias.length <= WavesApp.maxAliasLength &&
+                    alias.length <= EarthsApp.maxAliasLength &&
                     alias.split('').every((char) => AVAILABLE_CHARS.includes(char));
             }
 

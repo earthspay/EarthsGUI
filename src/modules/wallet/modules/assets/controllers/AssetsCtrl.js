@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {AssetsData} assetsData
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
@@ -12,7 +12,7 @@
      * @param {IPollCreate} createPoll
      * @return {Assets}
      */
-    const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
+    const controller = function (earths, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
 
         const tsUtils = require('ts-utils');
 
@@ -204,7 +204,7 @@
              * @private
              */
             _onChangeChartAssetId({ value }) {
-                waves.node.assets.balance(value)
+                earths.node.assets.balance(value)
                     .then((asset) => {
                         this.activeChartBalance = asset;
                     });
@@ -215,7 +215,7 @@
              * @private
              */
             _getChartBalances() {
-                return waves.node.assets.balanceList(this.chartAssetIdList)
+                return earths.node.assets.balanceList(this.chartAssetIdList)
                     .then((list) => list.map(({ available }) => available));
             }
 
@@ -224,7 +224,7 @@
              * @private
              */
             _getBalances() {
-                return waves.node.assets.balanceList(this.pinnedAssetIdList);
+                return earths.node.assets.balanceList(this.pinnedAssetIdList);
             }
 
             /**
@@ -241,9 +241,9 @@
             _getGraphData() {
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
-                const precisionPromise = waves.node.assets.getAsset(this.mirrorId)
+                const precisionPromise = earths.node.assets.getAsset(this.mirrorId)
                     .then(({ precision }) => precision);
-                const valuesPromise = waves.utils.getRateHistory(from, to, this._startDate);
+                const valuesPromise = earths.utils.getRateHistory(from, to, this._startDate);
 
                 return Promise.all([precisionPromise, valuesPromise])
                     .then(([precision, values]) => {
@@ -304,7 +304,7 @@
     };
 
     controller.$inject = [
-        'waves',
+        'earths',
         'assetsData',
         '$scope',
         'utils',

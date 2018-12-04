@@ -85,8 +85,8 @@
                         if (urlPair) {
                             return this._getPair(urlPair)
                                 .catch(() => this._getPair({
-                                    amount: WavesApp.defaultAssets.WAVES,
-                                    price: WavesApp.defaultAssets.BTC
+                                    amount: EarthsApp.defaultAssets.EARTHS,
+                                    price: EarthsApp.defaultAssets.BTC
                                 }))
                                 .then((pair) => {
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
@@ -118,7 +118,7 @@
                 if (pair) {
                     return ds.api.pairs.get(pair.amount, pair.price);
                 } else {
-                    return ds.api.pairs.get(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC);
+                    return ds.api.pairs.get(EarthsApp.defaultAssets.EARTHS, EarthsApp.defaultAssets.BTC);
                 }
             }
 

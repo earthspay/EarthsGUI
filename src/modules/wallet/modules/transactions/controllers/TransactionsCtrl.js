@@ -5,11 +5,11 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {TransactionsCsvGen} transactionsCsvGen
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {IPollCreate} createPoll
      * @return {TransactionsCtrl}
      */
-    const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {
+    const controller = function (Base, $scope, transactionsCsvGen, earths, createPoll) {
 
         class TransactionsCtrl extends Base {
 
@@ -46,12 +46,12 @@
             }
 
             exportTransactions() {
-                analytics.push('TransactionsPage', `TransactionsPage.CSV.${WavesApp.type}`, 'download');
+                analytics.push('TransactionsPage', `TransactionsPage.CSV.${EarthsApp.type}`, 'download');
                 transactionsCsvGen.generate(this.transactions);
             }
 
             _getTxList() {
-                return waves.node.transactions.list(this.limit);
+                return earths.node.transactions.list(this.limit);
             }
 
             /**
@@ -89,7 +89,7 @@
         return new TransactionsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'transactionsCsvGen', 'waves', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'transactionsCsvGen', 'earths', 'createPoll'];
 
     angular.module('app.wallet.transactions').controller('TransactionsCtrl', controller);
 })();

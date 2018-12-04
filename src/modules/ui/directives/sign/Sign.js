@@ -29,7 +29,7 @@
             /**
              * @type {boolean}
              */
-            isKeeper = user.userType === 'wavesKeeper';
+            isKeeper = user.userType === 'earthsKeeper';
             /**
              * @type {boolean}
              */

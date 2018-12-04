@@ -7,15 +7,15 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @param {ValidateService} validateService
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {User} user
      * @param {app.utils.decorators} decorators
      * @return {MassSend}
      */
-    const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
+    const controller = function (Base, readFile, $scope, utils, validateService, earths, user, decorators) {
 
         const Papa = require('papaparse');
-        const TYPE = WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER;
+        const TYPE = EarthsApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER;
 
         class MassSend extends Base {
 
@@ -162,7 +162,7 @@
             }
 
             nextStep() {
-                const tx = waves.node.transactions.createTransaction(this.tx);
+                const tx = earths.node.transactions.createTransaction(this.tx);
                 const signable = ds.signature.getSignatureApi().makeSignable({
                     type: tx.type,
                     data: tx
@@ -245,7 +245,7 @@
              */
             @decorators.async()
             _calculateFee() {
-                waves.node.getFee({ type: TYPE, tx: this.tx }).then((fee) => {
+                earths.node.getFee({ type: TYPE, tx: this.tx }).then((fee) => {
                     this.tx.fee = fee;
                     $scope.$digest();
                 });
@@ -403,7 +403,7 @@
              */
             @decorators.cachable(60)
             static _isValidRecipient(recipient) {
-                return utils.resolve(validateService.wavesAddress(recipient));
+                return utils.resolve(validateService.earthsAddress(recipient));
             }
 
             /**
@@ -412,7 +412,7 @@
              * @private
              */
             static _parseAmount(amountString) {
-                const data = WavesApp.getLocaleData();
+                const data = EarthsApp.getLocaleData();
                 const amount = amountString
                     .replace(new RegExp(`\\${data.separators.group}`, 'g'), '')
                     .replace(new RegExp(`\\${data.separators.decimal}`), '.')
@@ -425,7 +425,7 @@
         return new MassSend();
     };
 
-    controller.$inject = ['Base', 'readFile', '$scope', 'utils', 'validateService', 'waves', 'user', 'decorators'];
+    controller.$inject = ['Base', 'readFile', '$scope', 'utils', 'validateService', 'earths', 'user', 'decorators'];
 
     angular.module('app.ui').component('wMassSend', {
         bindings: {

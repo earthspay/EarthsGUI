@@ -5,9 +5,9 @@
 
     const tsUtils = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
-    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
+    const { WindowAdapter, Bus } = require('@earths/earths-browser-bus');
     const { splitEvery, pipe } = require('ramda');
-    const { libs } = require('@waves/signature-generator');
+    const { libs } = require('@earths/signature-generator');
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -23,7 +23,7 @@
 
     }
 
-    const dataEntities = require('@waves/data-entities');
+    const dataEntities = require('@earths/data-entities');
 
     /**
      * @name app.utils
@@ -198,7 +198,7 @@
              * @param {string} url
              */
             redirect(url) {
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     window.openInBrowser(url);
                 } else {
                     location.href = url;
@@ -565,7 +565,7 @@
             importUsersByWindow(win, origin, timeout) {
                 return new Promise((resolve, reject) => {
                     const adapter = new WindowAdapter(
-                        { win: window, origin: WavesApp.origin },
+                        { win: window, origin: EarthsApp.origin },
                         { win, origin }
                     );
                     const bus = new Bus(adapter);
@@ -695,10 +695,10 @@
                     }, 50);
                     return null;
                 }
-                if (asset1 === WavesApp.defaultAssets.WAVES) {
-                    asset2 = WavesApp.defaultAssets.BTC;
+                if (asset1 === EarthsApp.defaultAssets.EARTHS) {
+                    asset2 = EarthsApp.defaultAssets.BTC;
                 } else {
-                    asset2 = WavesApp.defaultAssets.WAVES;
+                    asset2 = EarthsApp.defaultAssets.EARTHS;
                 }
                 setTimeout(() => {
                     $state.go('main.dex', { assetId1: asset1, assetId2: asset2 });
@@ -719,7 +719,7 @@
                 if (shortMode && bigNum.gte(10000)) {
                     return this.getNiceBigNumberTemplate(bigNum);
                 } else {
-                    const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
+                    const separatorDecimal = EarthsApp.getLocaleData().separators.decimal;
                     const [int, decimal] = formatted.split(separatorDecimal);
                     if (decimal) {
                         const decimalTpl = _processDecimal(decimal, separatorDecimal);
@@ -1072,7 +1072,7 @@
                 },
                 smart: {
                     asc: function (a, b) {
-                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
+                        if (a instanceof ds.earthsDataEntities.Money && b instanceof ds.earthsDataEntities.Money) {
                             return utils.comparators.money.asc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.asc(a, b);
@@ -1081,7 +1081,7 @@
                         return utils.comparators.asc(a, b);
                     },
                     desc: function (a, b) {
-                        if (a instanceof ds.wavesDataEntities.Money && b instanceof ds.wavesDataEntities.Money) {
+                        if (a instanceof ds.earthsDataEntities.Money && b instanceof ds.earthsDataEntities.Money) {
                             return utils.comparators.money.desc(a, b);
                         } else if (a instanceof BigNumber && b instanceof BigNumber) {
                             return utils.comparators.bigNumber.desc(a, b);

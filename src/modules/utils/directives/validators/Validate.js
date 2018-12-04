@@ -19,7 +19,7 @@
         'compare',
         'alias',
         'address',
-        'wavesAddress',
+        'earthsAddress',
         'outerBlockchains',
         'anyAddress',
         'pattern',
@@ -28,7 +28,7 @@
 
     const PATTERNS = {
         get NUMBER() {
-            const decimal = WavesApp.getLocaleData().separators.decimal;
+            const decimal = EarthsApp.getLocaleData().separators.decimal;
             return `\\d*\\${decimal}?\\d*`;
         },
         INTEGER: '\\d*'
@@ -195,7 +195,7 @@
                                     break;
                                 case 'alias':
                                 case 'address':
-                                case 'wavesAddress':
+                                case 'earthsAddress':
                                     this._validators[name] = this._createAddressValidator(name);
                                     break;
                                 case 'integer':
@@ -627,9 +627,9 @@
                         static _toAssetId(data) {
                             if (typeof data === 'string') {
                                 return data;
-                            } else if (data instanceof ds.wavesDataEntities.Money) {
+                            } else if (data instanceof ds.earthsDataEntities.Money) {
                                 return data.asset.id;
-                            } else if (data instanceof ds.wavesDataEntities.Asset) {
+                            } else if (data instanceof ds.earthsDataEntities.Asset) {
                                 return data.id;
                             } else {
                                 return null;
@@ -639,7 +639,7 @@
                         static _toString(value) {
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
-                            } else if (value instanceof ds.wavesDataEntities.Money) {
+                            } else if (value instanceof ds.earthsDataEntities.Money) {
                                 return value.getTokens().toFormat();
                             } else if (!value) {
                                 return '';
@@ -716,7 +716,7 @@
                          * @private
                          */
                         static _replaceGroupSeparator(value) {
-                            const separator = WavesApp.localize[i18next.language].separators.group;
+                            const separator = EarthsApp.localize[i18next.language].separators.group;
                             const reg = new RegExp(`\\${separator}`, 'g');
                             return value.replace(reg, '');
                         }

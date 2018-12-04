@@ -21,7 +21,7 @@
 
             onReady(callback) {
                 setTimeout(() => callback({
-                    supported_resolutions: WavesApp.dex.resolutions,
+                    supported_resolutions: EarthsApp.dex.resolutions,
                     supports_time: true,
                     supports_marks: false,
                     supports_timescale_marks: false
@@ -137,11 +137,11 @@
             }
 
             static _getCandles(symbolInfo, from, to, resolution) {
-                const amountId = symbolInfo._wavesData.amountAsset.id;
-                const priceId = symbolInfo._wavesData.priceAsset.id;
+                const amountId = symbolInfo._earthsData.amountAsset.id;
+                const priceId = symbolInfo._earthsData.priceAsset.id;
                 const interval = CandlesService._normalizeInterval(resolution);
 
-                const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
+                const path = `${EarthsApp.network.api}/candles/${amountId}/${priceId}`;
                 return ds.fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}`)
                     .then((res) => res.candles);
             }

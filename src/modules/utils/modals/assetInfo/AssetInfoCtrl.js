@@ -7,10 +7,10 @@
      * @param {User} user
      * @param {IPollCreate} createPoll
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @return {AssetInfoCtrl}
      */
-    const controller = function (Base, $scope, user, createPoll, utils, waves) {
+    const controller = function (Base, $scope, user, createPoll, utils, earths) {
 
         const ds = require('data-service');
 
@@ -19,7 +19,7 @@
             constructor(asset) {
                 super($scope);
                 this.asset = asset;
-                this.wavesId = WavesApp.defaultAssets.WAVES;
+                this.earthsId = EarthsApp.defaultAssets.EARTHS;
                 this.isDemo = !user.address;
                 this.quantity = this.asset.quantity.div(new BigNumber(10).pow(this.asset.precision)).toFormat();
                 this.minFee = ds.utils.getTransferFeeList().find(money => money.asset.id === this.asset.id);
@@ -77,7 +77,7 @@
                 this.transactionsPending = false;
 
                 this.transactions = transactions.filter((tx) => {
-                    const TYPES = waves.node.transactions.TYPES;
+                    const TYPES = earths.node.transactions.TYPES;
 
                     switch (tx.typeName) {
                         case TYPES.SEND:
@@ -95,7 +95,7 @@
                         case TYPES.LEASE_IN:
                         case TYPES.LEASE_OUT:
                         case TYPES.CANCEL_LEASING:
-                            return this.asset.id === WavesApp.defaultAssets.WAVES;
+                            return this.asset.id === EarthsApp.defaultAssets.EARTHS;
                         case TYPES.ISSUE:
                         case TYPES.REISSUE:
                         case TYPES.BURN:
@@ -117,7 +117,7 @@
              */
             _getGraphData() {
                 const startDate = utils.moment().add().day(-100);
-                return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
+                return earths.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
                     .then((values) => ({ values }))
                     .catch(() => ({ values: null }));
             }
@@ -127,7 +127,7 @@
              * @private
              */
             _getCircleGraphData() {
-                return waves.node.assets.balance(this.asset.id);
+                return earths.node.assets.balance(this.asset.id);
             }
 
             /**
@@ -147,7 +147,7 @@
             }
 
             static _getTxList() {
-                return waves.node.transactions.list(100);
+                return earths.node.transactions.list(100);
             }
 
         }
@@ -155,7 +155,7 @@
         return new AssetInfoCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'createPoll', 'utils', 'waves'];
+    controller.$inject = ['Base', '$scope', 'user', 'createPoll', 'utils', 'earths'];
 
     angular.module('app.ui').controller('AssetInfoCtrl', controller);
 })();

@@ -94,7 +94,7 @@
                     data
                 });
 
-                if (WavesApp.isDesktop()) {
+                if (EarthsApp.isDesktop()) {
                     transfer('download', {
                         fileContent: csv,
                         fileName: fileName

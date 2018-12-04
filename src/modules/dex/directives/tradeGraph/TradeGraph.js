@@ -32,13 +32,13 @@
     /**
      * @param Base
      * @param utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {IPollCreate} createPoll
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, waves, createPoll, $scope) {
+    const controller = function (Base, utils, earths, createPoll, $scope) {
 
         class TradeGraph extends Base {
 
@@ -133,7 +133,7 @@
             }
 
             _getOrderBook() {
-                return (waves.matcher
+                return (earths.matcher
                     .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
                     .then(TradeGraph._buildCumulativeOrderBook)
@@ -278,7 +278,7 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'waves', 'createPoll', '$scope'];
+    controller.$inject = ['Base', 'utils', 'earths', 'createPoll', '$scope'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {

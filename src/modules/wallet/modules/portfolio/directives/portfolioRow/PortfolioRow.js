@@ -5,19 +5,19 @@
 
     // TODO @xenohunter : remove that when icons are in @dvshur's service
     const ASSET_IMAGES_MAP = {
-        [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
-        [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
-        [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
-        [WavesApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
-        [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
-        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
-        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
-        [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
-        [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
-        [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
-        [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
-        [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
-        [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
+        [EarthsApp.defaultAssets.EARTHS]: '/img/assets/earths.svg',
+        [EarthsApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
+        [EarthsApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
+        [EarthsApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
+        [EarthsApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
+        [EarthsApp.defaultAssets.EUR]: '/img/assets/euro.svg',
+        [EarthsApp.defaultAssets.USD]: '/img/assets/usd.svg',
+        [EarthsApp.defaultAssets.DASH]: '/img/assets/dash.svg',
+        [EarthsApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
+        [EarthsApp.defaultAssets.TRY]: '/img/assets/try.svg',
+        [EarthsApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
+        [EarthsApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
+        [EarthsApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     };
 
     const COLORS_MAP = {
@@ -121,9 +121,9 @@
          */
         utils = null;
         /**
-         * @type {Waves}
+         * @type {Earths}
          */
-        waves = null;
+        earths = null;
         /**
          * @type {User}
          */
@@ -150,7 +150,7 @@
         constructor($templateRequest,
                     $element,
                     utils,
-                    waves,
+                    earths,
                     user,
                     modalManager,
                     $state,
@@ -167,7 +167,7 @@
             this.$node = $element;
             this.node = $element.get(0);
             this.utils = utils;
-            this.waves = waves;
+            this.earths = earths;
             this.user = user;
             this.gatewayService = gatewayService;
 
@@ -189,24 +189,24 @@
         }
 
         $postLink() {
-            this._isWaves = this.balance.asset.id === WavesApp.defaultAssets.WAVES;
+            this._isEarths = this.balance.asset.id === EarthsApp.defaultAssets.EARTHS;
             this._isMyAsset = this.balance.asset.sender === this.user.address;
             this.canShowDex = this._getCanShowDex();
             const canStopSponsored = this._getCanStopSponsored();
 
             Promise.all([
-                this.waves.node.getFeeList({ type: 'transfer' }),
+                this.earths.node.getFeeList({ type: 'transfer' }),
                 PortfolioRow.templatePromise
             ]).then(([list, template]) => {
 
                 let balance = this.balance;
                 const firstAssetChar = this.balance.asset.name.slice(0, 1);
-                const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
+                const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isEarths;
 
                 const html = template({
                     assetIconPath: ASSET_IMAGES_MAP[this.balance.asset.id],
                     firstAssetChar,
-                    canBurn: !this._isWaves,
+                    canBurn: !this._isEarths,
                     canReissue: this._isMyAsset && this.balance.asset.reissuable,
                     charColor: COLORS_MAP[firstAssetChar.toUpperCase()] || DEFAULT_COLOR,
                     assetName: this.balance.asset.name,
@@ -265,7 +265,7 @@
             return this.balance.isPinned ||
                 this._isMyAsset ||
                 this.balance.asset.isMyAsset ||
-                this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                this.balance.asset.id === EarthsApp.defaultAssets.EARTHS ||
                 this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
                 this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
                 this.gatewayService.getFiats()[this.balance.asset.id];
@@ -293,7 +293,7 @@
                 return null;
             }
 
-            this.waves.utils.getChange(balance.asset.id, baseAssetId)
+            this.earths.utils.getChange(balance.asset.id, baseAssetId)
                 .then(change24 => {
                     const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
                     const isMoreZero = typeof change24 === 'number' ? change24 > 0 : change24.gt(0);
@@ -303,7 +303,7 @@
                     change24Node.innerHTML = `${change24.toFixed(2)}%`;
                 });
 
-            this.waves.utils.getRate(balance.asset.id, baseAssetId)
+            this.earths.utils.getRate(balance.asset.id, baseAssetId)
                 .then(rate => {
                     const baseAssetBalance = balance.available.getTokens().times(rate).toFormat(2);
 
@@ -312,7 +312,7 @@
                 });
 
             const startDate = this.utils.moment().add().day(-7);
-            this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
+            this.earths.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
                 this.chart = new this.ChartFactory(
                     this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
                     this.chartOptions,
@@ -458,9 +458,9 @@
             btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
             btnStop.classList.toggle('hidden', !canStopSponsored);
 
-            Promise.resolve(list || this.waves.node.getFeeList({ type: 'transfer', address: this.user.address }))
+            Promise.resolve(list || this.earths.node.getFeeList({ type: 'transfer', address: this.user.address }))
                 .then((list) => {
-                    const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
+                    const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isEarths;
                     icon.classList.toggle('sponsored-asset', !!canPayFee);
                 });
         }
@@ -495,8 +495,8 @@
                 return false;
             }
 
-            return !Object.values(WavesApp.defaultAssets).includes(this.balance.asset.id) &&
-                !WavesApp.scam[this.balance.asset.id];
+            return !Object.values(EarthsApp.defaultAssets).includes(this.balance.asset.id) &&
+                !EarthsApp.scam[this.balance.asset.id];
         }
 
     }
@@ -505,7 +505,7 @@
         '$templateRequest',
         '$element',
         'utils',
-        'waves',
+        'earths',
         'user',
         'modalManager',
         '$state',

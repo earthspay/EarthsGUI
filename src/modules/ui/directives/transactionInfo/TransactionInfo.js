@@ -9,7 +9,7 @@
      */
     const controller = function (Base, $scope) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
 
         class TransactionInfoCtrl extends Base {
 

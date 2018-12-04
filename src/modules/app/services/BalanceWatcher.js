@@ -7,9 +7,9 @@
      * @param {User} user
      * @param {Poll} Poll
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      */
-    const factory = function (user, Poll, utils, waves) {
+    const factory = function (user, Poll, utils, earths) {
 
         class BalanceWatcher {
 
@@ -48,7 +48,7 @@
              * @private
              */
             _getBalanceList() {
-                return waves.node.assets.userBalances()
+                return earths.node.assets.userBalances()
                     .then((list) => list.map(({ available }) => available))
                     .then((list) => list.filter((money) => money.getTokens().gt(0)));
             }
@@ -85,7 +85,7 @@
         return new BalanceWatcher();
     };
 
-    factory.$inject = ['user', 'Poll', 'utils', 'waves'];
+    factory.$inject = ['user', 'Poll', 'utils', 'earths'];
 
     angular.module('app').factory('balanceWatcher', factory);
 })();

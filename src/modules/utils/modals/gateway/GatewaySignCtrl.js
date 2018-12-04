@@ -20,7 +20,7 @@
 
         const isEmpty = (value) => !value;
         const tsApiValidator = require('ts-api-validator');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
         const ds = require('data-service');
         const schema = new tsApiValidator.Schema({
             type: tsApiValidator.ObjectPart,
@@ -52,7 +52,7 @@
             /**
              * @type {boolean}
              */
-            isDesktop = WavesApp.isDesktop();
+            isDesktop = EarthsApp.isDesktop();
             /**
              * @type {boolean}
              */
@@ -151,7 +151,7 @@
 
             createUrl() {
                 const { referrer, data, successPath } = this.urlParams;
-                const prefix = 'WavesWalletAuthentication';
+                const prefix = 'EarthsWalletAuthentication';
                 const host = GatewaySignCtrl._getDomain(referrer);
                 const signData = {
                     type: SIGN_TYPE.AUTH,

@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const { SIGN_TYPE } = require('@earths/signature-adapter');
 
     /**
      * @param $scope
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {Base} Base
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
@@ -13,7 +13,7 @@
      * @param {$mdDialog} $mdDialog
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, createPoll, user, $mdDialog) {
+    const controller = function ($scope, earths, Base, utils, createPoll, user, $mdDialog) {
 
         class AssetSendCtrl extends Base {
 
@@ -49,9 +49,9 @@
                  */
                 this.headerPath = 'modules/utils/modals/sendAsset/send-header.html';
                 /**
-                 * @type {typeof WavesApp.defaultAssets}
+                 * @type {typeof EarthsApp.defaultAssets}
                  */
-                this.defaultAssets = WavesApp.defaultAssets;
+                this.defaultAssets = EarthsApp.defaultAssets;
                 /**
                  * @type {Array<Money>}
                  */
@@ -72,7 +72,7 @@
                  * @type {ISendState}
                  */
                 this.state = {
-                    assetId: options.assetId || WavesApp.defaultAssets.WAVES,
+                    assetId: options.assetId || EarthsApp.defaultAssets.EARTHS,
                     mirrorId: user.getSetting('baseAssetId'),
                     outerSendMode: false,
                     gatewayDetails: null,
@@ -119,13 +119,13 @@
 
                     Promise.all([
                         ds.moneyFromTokens(options.amount || '0', this.state.assetId),
-                        waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER })
+                        earths.node.getFee({ type: EarthsApp.TRANSACTION_TYPES.NODE.TRANSFER })
                     ]).then(([money, fee]) => {
 
                         this.state.singleSend.amount = money;
                         this.state.singleSend.fee = fee;
 
-                        const tx = waves.node.transactions.createTransaction(this.state.singleSend);
+                        const tx = earths.node.transactions.createTransaction(this.state.singleSend);
                         const signable = ds.signature.getSignatureApi().makeSignable({
                             type: SIGN_TYPE.TRANSFER,
                             data: tx
@@ -188,7 +188,7 @@
              * @private
              */
             _getBalanceList() {
-                return waves.node.assets.userBalances()
+                return earths.node.assets.userBalances()
                     .then((list) => list.map(({ available }) => available))
                     .then((list) => list.filter((money) => money.getTokens().gt(0)))
                     .then((list) => utils.toHash(list, 'asset.id'))
@@ -201,7 +201,7 @@
              * @private
              */
             static _isNotScam(item) {
-                return !WavesApp.scam[item.asset.id];
+                return !EarthsApp.scam[item.asset.id];
             }
 
             /**
@@ -229,7 +229,7 @@
 
     controller.$inject = [
         '$scope',
-        'waves',
+        'earths',
         'Base',
         'utils',
         'createPoll',

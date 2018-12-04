@@ -1,4 +1,4 @@
-import { Asset, Money } from '@waves/data-entities';
+import { Asset, Money } from '@earths/data-entities';
 import { txApi as txApi } from '../transactions/interface';
 
 export module assetsApi {
@@ -18,7 +18,7 @@ export module assetsApi {
         minSponsoredAssetFee: string | number | void;
     }
 
-    export interface IWavesBalance {
+    export interface IEarthsBalance {
         address: string;
         available: string;
         effective: string;

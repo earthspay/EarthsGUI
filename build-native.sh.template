@@ -12,8 +12,8 @@ export WIN_CSC_KEY_PASSWORD=******
 
 
 # building executables for testnet
-WAVES_CONFIGURATION=testnet ./node_modules/.bin/build -mwl --config.directories.output=dist/desktop/testnet/electron --config.directories.app=dist/desktop/testnet/normal
+EARTHS_CONFIGURATION=testnet ./node_modules/.bin/build -mwl --config.directories.output=dist/desktop/testnet/electron --config.directories.app=dist/desktop/testnet/normal
 
 # building executables for mainnet
-WAVES_CONFIGURATION=mainnet ./node_modules/.bin/build -mwl --config.directories.output=dist/desktop/mainnet/electron --config.directories.app=dist/desktop/mainnet/normal
+EARTHS_CONFIGURATION=mainnet ./node_modules/.bin/build -mwl --config.directories.output=dist/desktop/mainnet/electron --config.directories.app=dist/desktop/mainnet/normal
 

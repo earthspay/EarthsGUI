@@ -137,7 +137,7 @@
                     const $element = $(this.popupNode).find(VIDEO_WRAPPER_SELECTOR);
 
                     let maxSize;
-                    if (WavesApp.device.phone()) {
+                    if (EarthsApp.device.phone()) {
                         maxSize = {
                             width: window.innerWidth,
                             height: window.innerHeight

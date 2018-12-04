@@ -53,7 +53,7 @@
 
             _onChangeState() {
                 const id = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1).replace('-demo', '');
-                const path = WavesApp.stateTree.getPath(id);
+                const path = EarthsApp.stateTree.getPath(id);
                 if (path) {
                     const active = this.value === path[path.length - 1];
                     $element.toggleClass('active', active);

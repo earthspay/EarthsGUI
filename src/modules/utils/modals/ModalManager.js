@@ -15,8 +15,8 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
-        const { Money } = require('@waves/data-entities');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
+        const { Money } = require('@earths/data-entities');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -376,7 +376,7 @@
             }
 
             showBurnModal(assetId) {
-                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                return $injector.get('earths').node.assets.balance(assetId).then(({ available }) => this._getModal({
                     id: 'token-burn',
                     mod: 'change-token',
                     locals: { money: available, txType: 'burn' },
@@ -387,7 +387,7 @@
             }
 
             showReissueModal(assetId) {
-                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                return $injector.get('earths').node.assets.balance(assetId).then(({ available }) => this._getModal({
                     id: 'token-burn',
                     mod: 'change-token',
                     locals: { money: available, txType: 'reissue' },
@@ -412,14 +412,14 @@
             }
 
             showSponsorshipStopModal(assetId) {
-                const waves = $injector.get('waves');
+                const earths = $injector.get('earths');
 
                 return Promise.all([
                     ds.api.assets.get(assetId),
-                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
+                    earths.node.getFee({ type: EarthsApp.TRANSACTION_TYPES.NODE.SPONSORSHIP })
                 ]).then(([asset, fee]) => {
                     const money = new Money(0, asset);
-                    const tx = waves.node.transactions.createTransaction({
+                    const tx = earths.node.transactions.createTransaction({
                         type: SIGN_TYPE.SPONSORSHIP,
                         assetId,
                         asset,
@@ -507,7 +507,7 @@
                             this._counter--;
 
                             if (options.id) {
-                                analytics.push('Modal', `Modal.Close.${WavesApp.type}`, options.id);
+                                analytics.push('Modal', `Modal.Close.${EarthsApp.type}`, options.id);
                             }
                         };
 
@@ -519,7 +519,7 @@
                         const modal = $mdDialog.show(target);
 
                         if (options.id) {
-                            analytics.push('Modal', `Modal.Open.${WavesApp.type}`, options.id);
+                            analytics.push('Modal', `Modal.Open.${EarthsApp.type}`, options.id);
                         }
 
                         modal.then(changeCounter, changeCounter);
@@ -561,7 +561,7 @@
                     controller = ModalManager._wrapController(options.controller);
                 } else {
                     const parts = options.controller.split(' as ');
-                    controller = ModalManager._wrapController(WavesApp.getController(parts[0]));
+                    controller = ModalManager._wrapController(EarthsApp.getController(parts[0]));
                     controllerAs = parts[1];
                 }
 

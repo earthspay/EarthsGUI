@@ -5,12 +5,12 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
      * @return {LeasingCtrl}
      */
-    const controller = function (Base, $scope, utils, waves, modalManager, createPoll) {
+    const controller = function (Base, $scope, utils, earths, modalManager, createPoll) {
 
         class LeasingCtrl extends Base {
 
@@ -59,9 +59,9 @@
                 /**
                  * @type {string}
                  */
-                this.nodeListLink = WavesApp.network.nodeList;
+                this.nodeListLink = EarthsApp.network.nodeList;
 
-                waves.node.transactions.getActiveLeasingTx().then((txList) => {
+                earths.node.transactions.getActiveLeasingTx().then((txList) => {
                     this.allActiveLeasing = txList;
                 });
 
@@ -80,14 +80,14 @@
              * @private
              */
             _getBalances() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+                return earths.node.assets.balance(EarthsApp.defaultAssets.EARTHS);
             }
 
             /**
              * @private
              */
             _getTransactions() {
-                return waves.node.transactions.list(10000);
+                return earths.node.transactions.list(10000);
             }
 
             /**
@@ -116,9 +116,9 @@
              */
             _setTxList(txList) {
                 const AVAILABLE_TYPES_HASH = {
-                    [waves.node.transactions.TYPES.LEASE_IN]: true,
-                    [waves.node.transactions.TYPES.LEASE_OUT]: true,
-                    [waves.node.transactions.TYPES.CANCEL_LEASING]: true
+                    [earths.node.transactions.TYPES.LEASE_IN]: true,
+                    [earths.node.transactions.TYPES.LEASE_OUT]: true,
+                    [earths.node.transactions.TYPES.CANCEL_LEASING]: true
                 };
 
                 this.txList = txList.filter(({ typeName }) => AVAILABLE_TYPES_HASH[typeName]);
@@ -160,7 +160,7 @@
         return new LeasingCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'waves', 'modalManager', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'utils', 'earths', 'modalManager', 'createPoll'];
 
     angular.module('app.wallet.leasing').controller('LeasingCtrl', controller);
 })();

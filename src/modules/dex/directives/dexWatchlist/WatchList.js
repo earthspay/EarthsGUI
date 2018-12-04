@@ -6,11 +6,11 @@
     const DROP_DOWN_LIST = [];
 
     DROP_DOWN_ORDER_LIST.forEach((name) => {
-        DROP_DOWN_LIST.push({ name, id: WavesApp.defaultAssets[name] });
+        DROP_DOWN_LIST.push({ name, id: EarthsApp.defaultAssets[name] });
     });
-    Object.keys(WavesApp.defaultAssets).forEach((name) => {
-        if (!DROP_DOWN_ORDER_LIST.includes(name) && name !== 'WAVES' && name !== 'BTC') {
-            DROP_DOWN_LIST.push({ name, id: WavesApp.defaultAssets[name] });
+    Object.keys(EarthsApp.defaultAssets).forEach((name) => {
+        if (!DROP_DOWN_ORDER_LIST.includes(name) && name !== 'EARTHS' && name !== 'BTC') {
+            DROP_DOWN_LIST.push({ name, id: EarthsApp.defaultAssets[name] });
         }
     });
 
@@ -18,7 +18,7 @@
      * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {STService} stService
      * @param {PromiseControl} PromiseControl
      * @param {IPollCreate} createPoll
@@ -26,13 +26,13 @@
      * @param {ModalManager} modalManager
      * @returns {WatchList}
      */
-    const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
+    const controller = function (Base, $scope, utils, earths, stService, PromiseControl, createPoll, $element,
                                  modalManager) {
 
         const R = require('ramda');
         const ds = require('data-service');
 
-        $scope.WavesApp = WavesApp;
+        $scope.EarthsApp = EarthsApp;
 
         class WatchList extends Base {
 
@@ -63,8 +63,8 @@
                  */
                 this.tabs = [
                     { name: 'directives.watchlist.all', value: 'all' },
-                    { name: 'WAVES', value: WavesApp.defaultAssets.WAVES },
-                    { name: 'BTC', value: WavesApp.defaultAssets.BTC }
+                    { name: 'EARTHS', value: EarthsApp.defaultAssets.EARTHS },
+                    { name: 'BTC', value: EarthsApp.defaultAssets.BTC }
                 ];
                 /**
                  * @type {function}
@@ -341,14 +341,14 @@
 
             _getTabRate() {
                 const activeTab = this.activeTab;
-                return waves.node.assets.getAsset(activeTab === 'all' ? WavesApp.defaultAssets.WAVES : activeTab)
+                return earths.node.assets.getAsset(activeTab === 'all' ? EarthsApp.defaultAssets.EARTHS : activeTab)
                     .then((asset) => {
                         this.volumeAsset = asset;
 
                         if (activeTab === 'all') {
                             return Promise.resolve(new BigNumber(1));
                         } else {
-                            return waves.utils.getRate(WavesApp.defaultAssets.WAVES, activeTab);
+                            return earths.utils.getRate(EarthsApp.defaultAssets.EARTHS, activeTab);
                         }
                     });
             }
@@ -485,7 +485,7 @@
                 this.searchInProgress = true;
                 this.pending = true;
 
-                this.searchRequest = new PromiseControl(Promise.all(queryParts.map(waves.node.assets.search)))
+                this.searchRequest = new PromiseControl(Promise.all(queryParts.map(earths.node.assets.search)))
                     .then(([d1 = [], d2 = []]) => {
                         this._searchAssets = R.uniqBy(R.prop('id'), d1.concat(d2));
                         return this._poll.restart().then(() => {
@@ -539,7 +539,7 @@
                 const favorite = (this._favourite || []).map(p => p.sort());
                 const chosen = [this._assetIdPair.amount, this._assetIdPair.price].sort();
                 const searchIdList = Object.keys(this._searchAssetsHash);
-                const idList = R.uniq(this._assetsIds.concat(searchIdList, Object.values(WavesApp.defaultAssets)));
+                const idList = R.uniq(this._assetsIds.concat(searchIdList, Object.values(EarthsApp.defaultAssets)));
                 const other = WatchList._getAllCombinations(idList);
                 return R.uniq(favorite.concat(other, [chosen]));
             }
@@ -618,7 +618,7 @@
              * @private
              */
             static _isId(query) {
-                return WatchList._getBytes(query) > 16 || query === 'WAVES';
+                return WatchList._getBytes(query) > 16 || query === 'EARTHS';
             }
 
             /**
@@ -724,7 +724,7 @@
         'Base',
         '$scope',
         'utils',
-        'waves',
+        'earths',
         'stService',
         'PromiseControl',
         'createPoll',

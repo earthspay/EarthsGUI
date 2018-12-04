@@ -53,7 +53,7 @@
         return new AssetsData();
     };
 
-    factory.$inject = ['user', 'decorators', 'waves', 'utils'];
+    factory.$inject = ['user', 'decorators', 'earths', 'utils'];
 
     angular.module('app.wallet.assets')
         .factory('assetsData', factory);

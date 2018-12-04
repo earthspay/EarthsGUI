@@ -27,45 +27,45 @@
                  */
                 this.defaults = {
                     advancedMode: false,
-                    network: WavesApp.network,
+                    network: EarthsApp.network,
                     lastOpenVersion: '',
                     whatsNewList: [],
                     withScam: false,
-                    scamListUrl: WavesApp.network.scamListUrl,
+                    scamListUrl: EarthsApp.network.scamListUrl,
                     shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,
                     hasBackup: true,
                     termsAccepted: true,
-                    baseAssetId: WavesApp.defaultAssets.USD,
+                    baseAssetId: EarthsApp.defaultAssets.USD,
                     events: Object.create(null),
                     lng: 'en',
                     send: {
                         defaultTab: 'singleSend'
                     },
                     pinnedAssetIdList: [
-                        WavesApp.defaultAssets.WAVES,
-                        WavesApp.defaultAssets.BTC,
-                        WavesApp.defaultAssets.ETH,
-                        WavesApp.defaultAssets.USD,
-                        WavesApp.defaultAssets.EUR,
-                        WavesApp.defaultAssets.LTC,
-                        WavesApp.defaultAssets.ZEC,
-                        WavesApp.defaultAssets.BCH,
-                        WavesApp.defaultAssets.TRY,
-                        WavesApp.defaultAssets.DASH,
-                        WavesApp.defaultAssets.XMR
+                        EarthsApp.defaultAssets.EARTHS,
+                        EarthsApp.defaultAssets.BTC,
+                        EarthsApp.defaultAssets.ETH,
+                        EarthsApp.defaultAssets.USD,
+                        EarthsApp.defaultAssets.EUR,
+                        EarthsApp.defaultAssets.LTC,
+                        EarthsApp.defaultAssets.ZEC,
+                        EarthsApp.defaultAssets.BCH,
+                        EarthsApp.defaultAssets.TRY,
+                        EarthsApp.defaultAssets.DASH,
+                        EarthsApp.defaultAssets.XMR
                     ],
                     wallet: {
                         activeState: 'assets',
                         assets: {
                             chartMode: 'month',
-                            activeChartAssetId: WavesApp.defaultAssets.WAVES,
+                            activeChartAssetId: EarthsApp.defaultAssets.EARTHS,
                             chartAssetIdList: [
-                                WavesApp.defaultAssets.WAVES,
-                                WavesApp.defaultAssets.BTC,
-                                WavesApp.defaultAssets.ETH
+                                EarthsApp.defaultAssets.EARTHS,
+                                EarthsApp.defaultAssets.BTC,
+                                EarthsApp.defaultAssets.ETH
                             ]
                         },
                         transactions: {
@@ -79,16 +79,16 @@
                     dex: {
                         chartCropRate: 1.5,
                         assetIdPair: {
-                            amount: WavesApp.defaultAssets.WAVES,
-                            price: WavesApp.defaultAssets.BTC
+                            amount: EarthsApp.defaultAssets.EARTHS,
+                            price: EarthsApp.defaultAssets.BTC
                         },
                         watchlist: {
                             showOnlyFavorite: false,
                             favourite: [
-                                [WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC]
+                                [EarthsApp.defaultAssets.EARTHS, EarthsApp.defaultAssets.BTC]
                             ],
                             activeTab: 'all',
-                            list: Object.values(WavesApp.defaultAssets)
+                            list: Object.values(EarthsApp.defaultAssets)
                         },
                         layout: {
                             watchlist: {

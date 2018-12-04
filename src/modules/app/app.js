@@ -6,8 +6,8 @@
         const [name] = args;
         const module = origin.call(angular, ...args);
 
-        if (WavesApp.modules.indexOf(name) === -1) {
-            WavesApp.modules.push(name);
+        if (EarthsApp.modules.indexOf(name) === -1) {
+            EarthsApp.modules.push(name);
             wrapAngularController(module);
             wrapAngularComponent(module);
             wrapAngularDirective(module);
@@ -22,7 +22,7 @@
             if (typeof $ctrl !== 'function') {
                 throw new Error('Wrong code style!');
             }
-            WavesApp.addController(name, $ctrl);
+            EarthsApp.addController(name, $ctrl);
             return origin.call(this, name, wrapControllerParams($ctrl));
         };
     }

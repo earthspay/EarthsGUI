@@ -1,4 +1,4 @@
-import { Adapter, getAdapterByType, adapterList } from '@waves/signature-adapter';
+import { Adapter, getAdapterByType, adapterList } from '@earths/signature-adapter';
 
 let API: Adapter;
 

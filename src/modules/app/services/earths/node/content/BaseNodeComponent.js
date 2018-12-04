@@ -10,9 +10,9 @@
      */
     const factory = function (Base, utils, eventManager, user) {
 
-        const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
+        const TYPES = EarthsApp.TRANSACTION_TYPES.NODE;
         const ds = require('data-service');
-        const { Money } = require('@waves/data-entities');
+        const { Money } = require('@earths/data-entities');
         const { head } = require('ramda');
 
         class BaseNodeComponent extends Base {
@@ -34,14 +34,14 @@
              */
             _feeList({ type, tx }) {
                 return Promise.all([
-                    ds.api.assets.get(WavesApp.defaultAssets.WAVES),
+                    ds.api.assets.get(EarthsApp.defaultAssets.EARTHS),
                     user.onLogin()
-                ]).then(head).then(waves => {
-                    const getFee = tokens => user.extraFee.add(Money.fromTokens(tokens, waves));
+                ]).then(head).then(earths => {
+                    const getFee = tokens => user.extraFee.add(Money.fromTokens(tokens, earths));
 
                     const transfer = () => {
                         const feeList = ds.utils.getTransferFeeList();
-                        const fee = Money.fromTokens(0.001, waves).add(user.extraFee);
+                        const fee = Money.fromTokens(0.001, earths).add(user.extraFee);
                         const assets = feeList.map(item => {
                             const count = fee.getTokens().div(0.001);
                             return item.cloneWithTokens(item.getTokens().times(count));

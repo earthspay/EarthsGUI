@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    const entities = require('@waves/data-entities');
+    const entities = require('@earths/data-entities');
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
@@ -29,10 +29,10 @@
 
             /**
              * @param {string} address
-             * @return {Promise<Assets.IWavesBalanceDetails>}
+             * @return {Promise<Assets.IEarthsBalanceDetails>}
              */
             getBalanceByAddress(address) {
-                return ds.api.assets.wavesBalance(address);
+                return ds.api.assets.earthsBalance(address);
             }
 
             /**
@@ -42,7 +42,7 @@
              */
             @decorators.cachable(5)
             info(assetId) {
-                if (assetId === WavesApp.defaultAssets.WAVES) {
+                if (assetId === EarthsApp.defaultAssets.EARTHS) {
                     return this.getAsset(assetId);
                 }
 
@@ -79,9 +79,9 @@
              * @return {JQuery.jqXHR}
              */
             search(query) {
-                return $.get(`https://api.wavesplatform.com/assets/search/${encodeURIComponent(query)}`, (data) => {
+                return $.get(`https://api.earths.ga/assets/search/${encodeURIComponent(query)}`, (data) => {
                     return data.map((item) => {
-                        item.name = WavesApp.remappedAssetNames[item.id] || item.name;
+                        item.name = EarthsApp.remappedAssetNames[item.id] || item.name;
                         return item;
                     });
                 });
@@ -124,7 +124,7 @@
             }
 
             giveMyScamBack() {
-                WavesApp.scam = Object.create(null);
+                EarthsApp.scam = Object.create(null);
                 if (this._pollScam) {
                     this._pollScam.destroy();
                     this._pollScam = null;
@@ -147,7 +147,7 @@
              * @private
              */
             _getScamAssetList() {
-                return ds.fetch(`${user.getSetting('scamListUrl')}?${WavesApp.version}-${Date.now()}`)
+                return ds.fetch(`${user.getSetting('scamListUrl')}?${EarthsApp.version}-${Date.now()}`)
                     .then((text) => {
                         const papa = require('papaparse');
                         const hash = Object.create(null);
@@ -165,7 +165,7 @@
              * @private
              */
             _setScamAssetList(hash) {
-                WavesApp.scam = hash;
+                EarthsApp.scam = hash;
             }
 
             /**
@@ -230,7 +230,7 @@
 /**
  * @name Assets
  *
- * @typedef {object} Assets#IWavesBalanceDetails
+ * @typedef {object} Assets#IEarthsBalanceDetails
  * @property {ExtendedAsset} asset
  * @property {Money} regular
  * @property {Money} available

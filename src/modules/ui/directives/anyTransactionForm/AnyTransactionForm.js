@@ -5,14 +5,14 @@
     /**
      * @param {typeof Base} Base
      * @param {$rootScope.Scope} $scope
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @return {AnyTransactionForm}
      */
-    const controller = function (Base, $scope, waves) {
+    const controller = function (Base, $scope, earths) {
 
         const { head } = require('ramda');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const { Money } = require('@waves/data-entities');
+        const { SIGN_TYPE } = require('@earths/signature-adapter');
+        const { Money } = require('@earths/data-entities');
         const ds = require('data-service');
 
 
@@ -60,7 +60,7 @@
                     state.tx = Object.create(null);
                 } else if (state.tx) {
                     try {
-                        this.json = WavesApp.stringifyJSON(this.state.tx, null, 4);
+                        this.json = EarthsApp.stringifyJSON(this.state.tx, null, 4);
                     } catch (e) {
                         // TODO add error
                         this.json = '';
@@ -81,7 +81,7 @@
                     return null;
                 }
 
-                WavesApp.parseJSON(json)
+                EarthsApp.parseJSON(json)
                     .then(data => this._updateSignable(data)
                         .then(() => {
                             this.state.tx = data;
@@ -136,10 +136,10 @@
             static _loadTxData(tx) {
                 switch (tx.type) {
                     case SIGN_TYPE.CANCEL_LEASING:
-                        return waves.node.transactions.get(tx.leaseId)
+                        return earths.node.transactions.get(tx.leaseId)
                             .then(lease => ({ lease }));
                     case SIGN_TYPE.BURN:
-                        return waves.node.assets.getAsset(tx.assetId).then(asset => ({
+                        return earths.node.assets.getAsset(tx.assetId).then(asset => ({
                             amount: new Money(tx.quantity, asset)
                         }));
                     default:
@@ -165,7 +165,7 @@
         return new AnyTransactionForm();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves'];
+    controller.$inject = ['Base', '$scope', 'earths'];
 
     angular.module('app.ui').component('wAnyTransactionForm', {
         controller,

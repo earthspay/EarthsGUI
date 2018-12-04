@@ -2,12 +2,12 @@
     'use strict';
 
     const FIAT_ASSETS = {
-        [WavesApp.defaultAssets.USD]: true,
-        [WavesApp.defaultAssets.EUR]: true,
-        [WavesApp.defaultAssets.TRY]: true
+        [EarthsApp.defaultAssets.USD]: true,
+        [EarthsApp.defaultAssets.EUR]: true,
+        [EarthsApp.defaultAssets.TRY]: true
     };
 
-    const { Money } = require('@waves/data-entities');
+    const { Money } = require('@earths/data-entities');
     const ds = require('data-service');
 
     const BANK_RECIPIENT = '3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us';
@@ -22,13 +22,13 @@
      * @param {IOuterBlockchains} outerBlockchains
      * @param {User} user
      * @param {GatewayService} gatewayService
-     * @param {Waves} waves
+     * @param {Earths} earths
      */
     const controller = function (Base,
                                  $scope,
                                  utils,
                                  createPoll,
-                                 waves,
+                                 earths,
                                  outerBlockchains,
                                  user,
                                  gatewayService) {
@@ -46,7 +46,7 @@
              * @return {boolean}
              */
             get isLira() {
-                return this.assetId === WavesApp.defaultAssets.TRY;
+                return this.assetId === EarthsApp.defaultAssets.TRY;
             }
 
             /**
@@ -158,7 +158,7 @@
             /**
              * @type {string}
              */
-            txType = WavesApp.TRANSACTION_TYPES.NODE.TRANSFER;
+            txType = EarthsApp.TRANSACTION_TYPES.NODE.TRANSFER;
 
             /**
              * @type {boolean}
@@ -240,7 +240,7 @@
             constructor() {
                 super();
 
-                $scope.WavesApp = WavesApp;
+                $scope.EarthsApp = EarthsApp;
             }
 
             $postLink() {
@@ -285,7 +285,7 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
 
-                const tx = waves.node.transactions.createTransaction({
+                const tx = earths.node.transactions.createTransaction({
                     ...this.tx,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
                     attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
@@ -316,7 +316,7 @@
                     amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                 }
 
-                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                earths.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
                     this._noCurrentRate = true;
                     this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     this.tx.amount = amount;
@@ -342,7 +342,7 @@
 
                 this.tx.recipient = result.recipient;
 
-                analytics.push('Send', `Send.QrCodeRead.${WavesApp.type}`, `Send.QrCodeRead.${WavesApp.type}.Success`);
+                analytics.push('Send', `Send.QrCodeRead.${EarthsApp.type}`, `Send.QrCodeRead.${EarthsApp.type}.Success`);
 
                 if (result) {
 
@@ -357,7 +357,7 @@
                     result.assetId = result.asset || result.assetId;
 
                     if (result.assetId) {
-                        waves.node.assets.balance(result.assetId).then(({ available }) => {
+                        earths.node.assets.balance(result.assetId).then(({ available }) => {
                             this.moneyHash[available.asset.id] = available;
 
                             if (this.assetId !== available.asset.id) {
@@ -380,7 +380,7 @@
              * @return {boolean}
              */
             isMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR;
+                return this.state.assetId === EarthsApp.defaultAssets.XMR;
             }
 
             getGatewayDetails() {
@@ -443,7 +443,7 @@
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
 
-                analytics.push('Send', `Send.ChangeCurrency.${WavesApp.type}`, this.assetId);
+                analytics.push('Send', `Send.ChangeCurrency.${EarthsApp.type}`, this.assetId);
             }
 
             /**
@@ -483,7 +483,7 @@
                 if (this.assetId === this.mirrorId) {
                     this.noMirror = true;
                 } else {
-                    waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                    earths.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
                         this.noMirror = rate.eq(0);
                     });
                 }
@@ -518,7 +518,7 @@
                     return null;
                 }
 
-                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                earths.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
                     this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     $scope.$digest();
                 });
@@ -535,7 +535,7 @@
                     return null;
                 }
 
-                waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
+                earths.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
                     this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
                     $scope.$digest();
                 });
@@ -546,14 +546,14 @@
              */
             _updateGatewayDetails() {
                 const outerChain = outerBlockchains[this.assetId];
-                const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+                const isValidEarthsAddress = earths.node.isValidAddress(this.tx.recipient);
 
                 if (this.gatewayDetailsError) {
                     this.outerSendMode = false;
                     this.gatewayDetailsError = false;
                 }
 
-                this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
+                this.outerSendMode = !isValidEarthsAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
@@ -592,7 +592,7 @@
         '$scope',
         'utils',
         'createPoll',
-        'waves',
+        'earths',
         'outerBlockchains',
         'user',
         'gatewayService'

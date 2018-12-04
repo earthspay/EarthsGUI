@@ -7,7 +7,7 @@
      */
     const factory = function (Base) {
 
-        const { Money } = require('@waves/data-entities');
+        const { Money } = require('@earths/data-entities');
         const tsUtils = require('ts-utils');
 
         class ChartFactory extends Base {

@@ -10,7 +10,7 @@ import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
 import { get, ServerResponse, IncomingMessage } from 'https';
-import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
+import { MAINNET_DATA, TESTNET_DATA } from '@earths/assets-pairs-order';
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
@@ -254,7 +254,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         if (url.includes('/package.json')) {
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
-            get(`https://client.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
+            get(`https://client.earths.ga/${url}`, (resp: IncomingMessage) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.

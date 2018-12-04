@@ -4,19 +4,19 @@ const R = require('ramda');
 (function () {
     'use strict';
 
-    const HIDDEN_ASSETS = WavesApp.ALWAYS_PINNED_ASSETS;
+    const HIDDEN_ASSETS = EarthsApp.ALWAYS_PINNED_ASSETS;
 
     /**
      *
      * @param Base
      * @param $scope
      * @param {ExplorerLinks} explorerLinks
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @param {IPollCreate} PromiseControl
      * @param $mdDialog
      * @return {PinAssetCtrl}
      */
-    const controller = function (Base, $scope, waves, PromiseControl, $mdDialog) {
+    const controller = function (Base, $scope, earths, PromiseControl, $mdDialog) {
 
         class PinAssetCtrl extends Base {
 
@@ -99,7 +99,7 @@ const R = require('ramda');
              */
             async _getAvilableAssets() {
                 const myAssets = await ds.dataManager.getBalances();
-                const defaultAssets = await waves.node.assets.getAsset(Object.values(WavesApp.defaultAssets));
+                const defaultAssets = await earths.node.assets.getAsset(Object.values(EarthsApp.defaultAssets));
                 return R.uniqBy(R.prop('id'), [...defaultAssets, ...myAssets.map(x => x.asset)]).map((asset) => {
                     const pinned = this.pinnedAssetIdList.includes(asset.id);
                     return { ...asset, pinned };
@@ -159,7 +159,7 @@ const R = require('ramda');
                     this._searchPromise.drop();
                 }
 
-                this._searchPromise = new PromiseControl(waves.node.assets.search(this.search.trim()));
+                this._searchPromise = new PromiseControl(earths.node.assets.search(this.search.trim()));
 
                 return this._searchPromise.then(
                     list => list,
@@ -188,7 +188,7 @@ const R = require('ramda');
              * @static
              */
             static _isScam(asset) {
-                return (WavesApp.scam || {})[asset.id];
+                return (EarthsApp.scam || {})[asset.id];
             }
 
         }
@@ -196,6 +196,6 @@ const R = require('ramda');
         return new PinAssetCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'PromiseControl', '$mdDialog'];
+    controller.$inject = ['Base', '$scope', 'earths', 'PromiseControl', '$mdDialog'];
     angular.module('app.utils').controller('PinAssetCtrl', controller);
 })();

@@ -17,9 +17,9 @@ import {
     IData
 } from './interface';
 import { contains } from 'ts-utils';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
+import { TRANSACTION_TYPE_NUMBER } from '@earths/signature-generator';
 import { pipe, prop, uniqBy, tap } from 'ramda';
-import { TransactionFilters } from '@waves/data-service-client-js/src/types';
+import { TransactionFilters } from '@earths/data-service-client-js/src/types';
 
 
 export function list(address: string, limit = 100): Promise<Array<T_TX>> {

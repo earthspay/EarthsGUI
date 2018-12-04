@@ -1,11 +1,11 @@
-import { Asset, AssetPair, Money, BigNumber } from '@waves/data-entities';
+import { Asset, AssetPair, Money, BigNumber } from '@earths/data-entities';
 import { getDataService, matcherSettingsPromise } from '../../config';
 import { request } from '../../utils/request';
 import { get as getAsset } from '../assets/assets';
-import { createOrderPair } from '@waves/assets-pairs-order';
-import { WAVES_ID } from '@waves/signature-generator';
-import { IPairJSON } from '@waves/data-service-client-js/src/types';
-import { TMoneyInput } from '@waves/data-entities/dist/entities/Money';
+import { createOrderPair } from '@earths/assets-pairs-order';
+import { EARTHS_ID } from '@earths/signature-generator';
+import { IPairJSON } from '@earths/data-service-client-js/src/types';
+import { TMoneyInput } from '@earths/data-entities/dist/entities/Money';
 
 
 export function get(assetId1: string | Asset, assetId2: string | Asset): Promise<AssetPair> {
@@ -34,7 +34,7 @@ const remapPairInfo = (pairs: Array<AssetPair>, volumeFactory: (data: TMoneyInpu
     const priceAsset = pair.priceAsset;
     const lastPrice = moneyFactory(data.lastPrice);
     const firstPrice = moneyFactory(data.firstPrice);
-    const volume = volumeFactory(data.volumeWaves);
+    const volume = volumeFactory(data.volumeEarths);
     const change24 = change24F(firstPrice && firstPrice.getTokens(), lastPrice && lastPrice.getTokens());
     const id = [amountAsset.id, priceAsset.id].sort().join();
 
@@ -43,10 +43,10 @@ const remapPairInfo = (pairs: Array<AssetPair>, volumeFactory: (data: TMoneyInpu
 
 export function info(...pairs: AssetPair[]) {
     return Promise.all([
-        getAsset(WAVES_ID),
+        getAsset(EARTHS_ID),
         request({ method: () => getDataService().getPairs(...pairs).then(response => response.data) })
-    ]).then(([waves, list]) => {
-        const factory = (data: TMoneyInput) => data && Money.fromTokens(data, waves) || null;
+    ]).then(([earths, list]) => {
+        const factory = (data: TMoneyInput) => data && Money.fromTokens(data, earths) || null;
         return remapPairInfo(pairs, factory)(list);
     });
 }

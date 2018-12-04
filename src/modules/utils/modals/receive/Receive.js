@@ -4,8 +4,8 @@
     const DEFAULT_LINK = '#';
 
     const FIAT_CODES = {
-        [WavesApp.defaultAssets.USD]: 'USD',
-        [WavesApp.defaultAssets.EUR]: 'EURO'
+        [EarthsApp.defaultAssets.USD]: 'USD',
+        [EarthsApp.defaultAssets.EUR]: 'EURO'
     };
 
     // TODO : move this to the related gateway service
@@ -13,15 +13,15 @@
     const FIAT_LIST = [
         {
             name: 'USD',
-            assetId: WavesApp.defaultAssets.USD,
-            fiatCode: FIAT_CODES[WavesApp.defaultAssets.USD],
+            assetId: EarthsApp.defaultAssets.USD,
+            fiatCode: FIAT_CODES[EarthsApp.defaultAssets.USD],
             min: '30',
             max: '50'
         },
         {
             name: 'EUR',
-            assetId: WavesApp.defaultAssets.EUR,
-            fiatCode: FIAT_CODES[WavesApp.defaultAssets.EUR],
+            assetId: EarthsApp.defaultAssets.EUR,
+            fiatCode: FIAT_CODES[EarthsApp.defaultAssets.EUR],
             min: '30',
             max: '50'
         }
@@ -33,10 +33,10 @@
      * @param {GatewayService} gatewayService
      * @param {User} user
      * @param {app.utils} utils
-     * @param {Waves} waves
+     * @param {Earths} earths
      * @return {ReceiveCtrl}
      */
-    const controller = function (Base, $scope, gatewayService, user, utils, waves) {
+    const controller = function (Base, $scope, gatewayService, user, utils, earths) {
 
         class ReceiveCtrl extends Base {
 
@@ -227,7 +227,7 @@
             initInvoiceTab() {
                 this.addressAndAliases = [
                     this.address,
-                    ...waves.node.aliases.getAliasList()
+                    ...earths.node.aliases.getAliasList()
                 ];
 
                 this.activateInvoiceTab();
@@ -257,9 +257,9 @@
 
                 const invoiceAmount = (this.invoiceAmount && this.invoiceAmount.toTokens()) || '0';
 
-                const WAVES_URL = WavesApp.origin;
+                const EARTHS_URL = EarthsApp.origin;
 
-                this.sendLink = `${WAVES_URL}/#send/${assetId}?recipient=${this.chosenAlias}&amount=${invoiceAmount}`;
+                this.sendLink = `${EARTHS_URL}/#send/${assetId}?recipient=${this.chosenAlias}&amount=${invoiceAmount}`;
             }
 
             initCardTab() {
@@ -294,7 +294,7 @@
             setCardObserver() {
                 this.observe(['chosenCurrencyIndex', 'cardPayment', 'asset'], () => {
                     if (!Number(this._tokenizeCardPayment())) {
-                        this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
+                        this.approximateAmount = new ds.earthsDataEntities.Money(0, this.asset);
                     }
 
                     this.updateCardTab();
@@ -302,7 +302,7 @@
             }
 
             updateApproximateAmount() {
-                this.approximateAmount = new ds.wavesDataEntities.Money(0, this.asset);
+                this.approximateAmount = new ds.earthsDataEntities.Money(0, this.asset);
 
                 gatewayService.getCardApproximateCryptoAmount(
                     this.asset,
@@ -312,7 +312,7 @@
                 )
                     .then((approximateAmount) => {
                         const coins = new BigNumber(approximateAmount).times(Math.pow(10, this.asset.precision));
-                        this.approximateAmount = new ds.wavesDataEntities.Money(coins.dp(0), this.asset);
+                        this.approximateAmount = new ds.earthsDataEntities.Money(coins.dp(0), this.asset);
                         $scope.$digest();
                     });
             }
@@ -338,7 +338,7 @@
                     this.cryptocurrencies = results;
                 });
 
-                const invoicesRequest = waves.node.assets.userBalances().then((results) => {
+                const invoicesRequest = earths.node.assets.userBalances().then((results) => {
                     this.invoicables = results.filter(ReceiveCtrl._isNotScam).map((balance) => balance.asset);
                 });
 
@@ -370,7 +370,7 @@
                 return (
                     Object
                         .keys(assetsIds)
-                        .map(waves.node.assets.getAsset)
+                        .map(earths.node.assets.getAsset)
                 );
             }
 
@@ -436,7 +436,7 @@
             }
 
             isLira() {
-                return this.asset.id === WavesApp.defaultAssets.TRY;
+                return this.asset.id === EarthsApp.defaultAssets.TRY;
             }
 
             _tokenizeCardPayment() {
@@ -448,7 +448,7 @@
              * @private
              */
             static _isNotScam(item) {
-                return !WavesApp.scam[item.asset.id];
+                return !EarthsApp.scam[item.asset.id];
             }
 
         }
@@ -456,7 +456,7 @@
         return new ReceiveCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'utils', 'waves'];
+    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'utils', 'earths'];
 
     angular.module('app.utils').controller('ReceiveCtrl', controller);
 })();

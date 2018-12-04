@@ -7,8 +7,8 @@
 
             constructor() {
                 super($scope);
-                this.isDesktop = WavesApp.isDesktop();
-                this.isWeb = WavesApp.isWeb();
+                this.isDesktop = EarthsApp.isDesktop();
+                this.isWeb = EarthsApp.isWeb();
             }
 
         }
