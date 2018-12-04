@@ -285,7 +285,7 @@ task('downloadLocales', ['concat-develop-sources'], function (done) {
             const langs = Object.keys(meta.langList);
 
             return Promise.all(langs.map(lang => {
-                const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
+                const url = `https://locize.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${name}`;
                 const out = join('dist', 'locale', lang, `${name}.json`);
 
                 return download(url, out)
@@ -429,7 +429,7 @@ task('electron-debug', function (done) {
     };
 
     const loadLocale = lang => {
-        const url = `https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/electron`;
+        const url = `https://locize.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/electron`;
         const out = join(root, 'locales', lang, `electron.json`);
 
         return download(url, out);

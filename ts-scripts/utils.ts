@@ -291,7 +291,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace('.json', '')
                 .split('/');
 
-            get(`https://locize.wvservices.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${ns}`, (response) => {
+            get(`https://locize.com/30ffe655-de56-4196-b274-5edc3080c724/latest/${lang}/${ns}`, (response) => {
                 let data = new Buffer('');
 
                 // A chunk of data has been recieved.
