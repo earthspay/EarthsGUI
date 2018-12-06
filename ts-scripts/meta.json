@@ -165,8 +165,8 @@
     "testnet": {
       "apiVersion": "v0",
       "code": "T",
-      "node": "https://pool.testnet.earthsnodes.com",
-      "matcher": "https://matcher.testnet.earthsnodes.com/matcher",
+      "node": "https://pool.testnet.earthsnodes.earths.ga",
+      "matcher": "https://matcher.testnet.earthsnodes.earths.ga/matcher",
       "api": "https://api.testnet.earths.ga",
       "explorer": "https://testnet.earthsexplorer.com",
       "coinomat": "https://localhost:8080/coinomat",
